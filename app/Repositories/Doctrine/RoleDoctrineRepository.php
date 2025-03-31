@@ -4,11 +4,11 @@ namespace App\Repositories\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
-use App\Contracts\Abstract\UserRepositoryAbstract;
+use App\Contracts\Abstract\RoleRepositoryAbstract;
 use Ramsey\Uuid\UuidInterface;
-use App\Entities\User;
+use App\Entities\Role;
 
-final class UserDoctrineRepository extends UserRepositoryAbstract
+final class RoleDoctrineRepository extends RoleRepositoryAbstract
 {
     private EntityManagerInterface $entityManager;
 
@@ -20,57 +20,57 @@ final class UserDoctrineRepository extends UserRepositoryAbstract
     public function all(): array
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Role::class
         )->findBy(
             criteria: [],
             orderBy: ['createdAt' => 'DESC']
         );
     }
 
-    public function findById(UuidInterface $id): ?User
+    public function findById(UuidInterface $id): ?Role
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Role::class
         )->find(
             id: $id
         );
     }
 
-    public function findByEmail(string $email): ?User
+    public function findBySlug(string $slug): ?Role
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Role::class
         )->findOneBy(
-            criteria: ['email' => $email]
+            criteria: ['slug' => $slug]
         );
     }
 
-    public function save(User $user): void
+    public function save(Role $role): void
     {
         try {
-            $this->entityManager->persist(object: $user);
+            $this->entityManager->persist(object: $role);
             $this->entityManager->flush();
         }
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Save User: {$e->getMessage()}",
+                message: "Failed To Save Role: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );
         }
     }
 
-    public function remove(User $user): void
+    public function remove(Role $role): void
     {
         try {
-            $this->entityManager->remove(object: $user);
+            $this->entityManager->remove(object: $role);
             $this->entityManager->flush();
         }
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Delete User: {$e->getMessage()}",
+                message: "Failed To Delete Role: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );

@@ -4,11 +4,11 @@ namespace App\Repositories\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
-use App\Contracts\Abstract\UserRepositoryAbstract;
+use App\Contracts\Abstract\MediaRepositoryAbstract;
 use Ramsey\Uuid\UuidInterface;
-use App\Entities\User;
+use App\Entities\Media;
 
-final class UserDoctrineRepository extends UserRepositoryAbstract
+final class MediaDoctrineRepository extends MediaRepositoryAbstract
 {
     private EntityManagerInterface $entityManager;
 
@@ -20,57 +20,58 @@ final class UserDoctrineRepository extends UserRepositoryAbstract
     public function all(): array
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Media::class
         )->findBy(
             criteria: [],
             orderBy: ['createdAt' => 'DESC']
         );
     }
 
-    public function findById(UuidInterface $id): ?User
+    public function findById(UuidInterface $id): ?Media
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Media::class
         )->find(
             id: $id
         );
     }
 
-    public function findByEmail(string $email): ?User
+    public function findByEntityId(string $entityId): array
     {
         return $this->entityManager->getRepository(
-            className: User::class
-        )->findOneBy(
-            criteria: ['email' => $email]
+            className: Media::class
+        )->findBy(
+            criteria: ['entityId' => $entityId],
+            orderBy: ['createdAt' => 'DESC']
         );
     }
 
-    public function save(User $user): void
+    public function save(Media $media): void
     {
         try {
-            $this->entityManager->persist(object: $user);
+            $this->entityManager->persist(object: $media);
             $this->entityManager->flush();
         }
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Save User: {$e->getMessage()}",
+                message: "Failed To Save Media: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );
         }
     }
 
-    public function remove(User $user): void
+    public function remove(Media $media): void
     {
         try {
-            $this->entityManager->remove(object: $user);
+            $this->entityManager->remove(object: $media);
             $this->entityManager->flush();
         }
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Delete User: {$e->getMessage()}",
+                message: "Failed To Delete Media: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );

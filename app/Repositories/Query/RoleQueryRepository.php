@@ -3,16 +3,16 @@
 namespace App\Repositories\Query;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Repositories\Cached\UserCachedRepository;
-use App\Contracts\Abstract\UserRepositoryAbstract;
-use App\Repositories\Memory\UserMemoryRepository;
-use App\Entities\User;
+use App\Repositories\Cached\RoleCachedRepository;
+use App\Contracts\Abstract\RoleRepositoryAbstract;
+use App\Repositories\Memory\RoleMemoryRepository;
+use App\Entities\Role;
 
-final class UserQueryRepository extends UserRepositoryAbstract
+final class RoleQueryRepository extends RoleRepositoryAbstract
 {
     public function __construct(
-        private UserCachedRepository $cachedRepository,
-        private UserMemoryRepository $memory
+        private RoleCachedRepository $cachedRepository,
+        private RoleMemoryRepository $memoryRepository
     ) {
         parent::__construct(
             repository: $cachedRepository,
@@ -33,7 +33,7 @@ final class UserQueryRepository extends UserRepositoryAbstract
         return $cached;
     }
 
-    public function findById(UuidInterface $id): ?User
+    public function findById(UuidInterface $id): ?Role
     {
         $memory = $this->collection->findById(id: $id);
 
@@ -46,28 +46,28 @@ final class UserQueryRepository extends UserRepositoryAbstract
         return $cached;
     }
 
-    public function findByEmail(string $email): ?User
+    public function findBySlug(string $slug): ?Role
     {
-        $memory = $this->collection->findByEmail(email: $email);
+        $memory = $this->collection->findBySlug(slug: $slug);
 
         if ($memory !== null) {
             return $memory;
         }
         
-        $cached = $this->repository->findByEmail(email: $email);
+        $cached = $this->repository->findBySlug(slug: $slug);
         
         return $cached;
     }
 
-    public function save(User $user): void
+    public function save(Role $role): void
     {
-        $this->collection->save(user: $user);
-        $this->repository->save(user: $user);
+        $this->collection->save(role: $role);
+        $this->repository->save(role: $role);
     }
 
-    public function remove(User $user): void
+    public function remove(Role $role): void
     {
-        $this->collection->remove(user: $user);
-        $this->repository->remove(user: $user);
+        $this->collection->remove(role: $role);
+        $this->repository->remove(role: $role);
     }
 }

@@ -4,11 +4,11 @@ namespace App\Repositories\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
-use App\Contracts\Abstract\UserRepositoryAbstract;
+use App\Contracts\Abstract\PermissionRepositoryAbstract;
 use Ramsey\Uuid\UuidInterface;
-use App\Entities\User;
+use App\Entities\Permission;
 
-final class UserDoctrineRepository extends UserRepositoryAbstract
+final class PermissionDoctrineRepository extends PermissionRepositoryAbstract
 {
     private EntityManagerInterface $entityManager;
 
@@ -20,57 +20,57 @@ final class UserDoctrineRepository extends UserRepositoryAbstract
     public function all(): array
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Permission::class
         )->findBy(
             criteria: [],
             orderBy: ['createdAt' => 'DESC']
         );
     }
 
-    public function findById(UuidInterface $id): ?User
+    public function findById(UuidInterface $id): ?Permission
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Permission::class
         )->find(
             id: $id
         );
     }
 
-    public function findByEmail(string $email): ?User
+    public function findBySlug(string $slug): ?Permission
     {
         return $this->entityManager->getRepository(
-            className: User::class
+            className: Permission::class
         )->findOneBy(
-            criteria: ['email' => $email]
+            criteria: ['slug' => $slug]
         );
     }
 
-    public function save(User $user): void
+    public function save(Permission $permission): void
     {
         try {
-            $this->entityManager->persist(object: $user);
+            $this->entityManager->persist(object: $permission);
             $this->entityManager->flush();
         }
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Save User: {$e->getMessage()}",
+                message: "Failed To Save Permission: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );
         }
     }
 
-    public function remove(User $user): void
+    public function remove(Permission $permission): void
     {
         try {
-            $this->entityManager->remove(object: $user);
+            $this->entityManager->remove(object: $permission);
             $this->entityManager->flush();
         }
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Delete User: {$e->getMessage()}",
+                message: "Failed To Delete Permission: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );

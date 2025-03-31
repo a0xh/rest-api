@@ -8,6 +8,7 @@ use App\Repositories\Transaction\UserTransactionRepository;
 use Ramsey\Uuid\UuidInterface;
 use App\Repositories\Doctrine\UserDoctrineRepository;
 use App\Entities\User;
+use Carbon\Carbon;
 
 final class UserCachedRepository extends UserRepositoryAbstract
 {
@@ -15,14 +16,17 @@ final class UserCachedRepository extends UserRepositoryAbstract
 
 	public function __construct(
 		private UserDoctrineRepository $userDoctrine,
-        private UserTransactionRepository $userTransaction,
+        private UserTransactionRepository $userTransaction
 	) {}
 
 	public function all(): array
     {
         return Cache::flexible(
         	key: self::CACHE_USER_ALL_KEY,
-        	ttl: [900, 1800],
+        	ttl: [
+                Carbon::now()->addMinutes(value: 5),
+                Carbon::now()->addMinutes(value: 15)
+            ],
         	callback: fn () => $this->userDoctrine->all(),
         	lock: ['seconds' => 10]
         );
