@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Shared\AggregateRoot;
+use App\Shared\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
@@ -11,12 +11,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
-use Carbon\CarbonImmutable;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'roles')]
-#[ORM\HasLifecycleCallbacks]
-final class Role extends AggregateRoot
+final class Role extends Entity
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -55,24 +53,6 @@ final class Role extends AggregateRoot
     private string $slug;
 
     /**
-     * Timestamp when the role was created.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Created at must not be null.')]
-    #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $createdAt;
-
-    /**
-     * Timestamp when the role was last updated.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Updated at must not be null.')]
-    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $updatedAt;
-
-    /**
      * The users associated with this role.
      *
      * @var Collection<int, User>
@@ -109,10 +89,9 @@ final class Role extends AggregateRoot
         $this->slug = $slug;
 
         /**
-         * Sets the created-at and updated-at timestamps to the current time.
+         * Initializes parent timestamps.
          */
-        $this->createdAt = CarbonImmutable::now();
-        $this->updatedAt = CarbonImmutable::now();
+        parent::__construct();
 
 
         /**
@@ -174,35 +153,6 @@ final class Role extends AggregateRoot
     public function getSlug(): string
     {
         return $this->slug;
-    }
-
-    /**
-     * Get the date and time when the role was created.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Update the date and time when the role was last updated.
-     */
-    #[ORM\PreUpdate]
-    public function setUpdatedAtOnUpdate(): void
-    {
-        $this->updatedAt = CarbonImmutable::now();
-    }
-
-    /**
-     * Get the date and time when the role was last updated.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getUpdatedAt(): \DateTimeImmutable
-    {
-        return $this->updatedAt;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Shared\AggregateRoot;
+use App\Shared\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
@@ -12,12 +12,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
-use Carbon\CarbonImmutable;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'permissions')]
-#[ORM\HasLifecycleCallbacks]
-final class Permission extends AggregateRoot
+final class Permission extends Entity
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -65,24 +63,6 @@ final class Permission extends AggregateRoot
     private string $slug;
 
     /**
-     * Timestamp when the permission was created.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Created at must not be null.')]
-    #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $createdAt;
-
-    /**
-     * Timestamp when the permission was last updated.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Updated at must not be null.')]
-    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $updatedAt;
-
-    /**
      * The roles associated with this permission.
      *
      * @var Collection<int, Role>
@@ -112,10 +92,9 @@ final class Permission extends AggregateRoot
         $this->slug = $slug;
 
         /**
-         * Sets the created-at and updated-at timestamps to the current time.
+         * Initializes parent timestamps.
          */
-        $this->createdAt = CarbonImmutable::now();
-        $this->updatedAt = CarbonImmutable::now();
+        parent::__construct();
 
         /**
          * Initializes an empty collection for roles.
@@ -191,35 +170,6 @@ final class Permission extends AggregateRoot
     public function getSlug(): string
     {
         return $this->slug;
-    }
-
-    /**
-     * Get the date and time when the permission was created.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Update the date and time when the permission was last updated.
-     */
-    #[ORM\PreUpdate]
-    public function setUpdatedAtOnUpdate(): void
-    {
-        $this->updatedAt = CarbonImmutable::now();
-    }
-
-    /**
-     * Get the date and time when the permission was last updated.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getUpdatedAt(): \DateTimeImmutable
-    {
-        return $this->updatedAt;
     }
 
     /**

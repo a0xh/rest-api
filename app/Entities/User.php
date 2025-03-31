@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Shared\AggregateRoot;
+use App\Shared\Entity;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Auth\Authenticatable;
@@ -14,12 +14,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
-use Carbon\{CarbonImmutable, Carbon};
+use Carbon\Carbon;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
-#[ORM\HasLifecycleCallbacks]
-final class User extends AggregateRoot implements JWTSubject, AuthenticatableContract
+final class User extends Entity implements JWTSubject, AuthenticatableContract
 {
     use Authenticatable;
 
@@ -144,24 +143,6 @@ final class User extends AggregateRoot implements JWTSubject, AuthenticatableCon
     private bool $status;
 
     /**
-     * Timestamp when the user was created.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Created at must not be null.')]
-    #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $createdAt;
-
-    /**
-     * Timestamp when the user was last updated.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Updated at must not be null.')]
-    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $updatedAt;
-
-    /**
      * The role assigned to the user.
      *
      * @var Role|null
@@ -207,10 +188,9 @@ final class User extends AggregateRoot implements JWTSubject, AuthenticatableCon
         $this->status = true;
 
         /**
-         * Sets the created-at and updated-at timestamps to the current time.
+         * Initializes parent timestamps.
          */
-        $this->createdAt = CarbonImmutable::now();
-        $this->updatedAt = CarbonImmutable::now();
+        parent::__construct();
 
         /**
          * Initializes an empty collection for media.
@@ -394,35 +374,6 @@ final class User extends AggregateRoot implements JWTSubject, AuthenticatableCon
     public function getStatus(): bool
     {
         return $this->status;
-    }
-
-    /**
-     * Get the creation timestamp of the entity.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Updates The Modification Timestamp Before Persistence.
-     */
-    #[ORM\PreUpdate]
-    public function setUpdatedAtOnUpdate(): void
-    {
-        $this->updatedAt = CarbonImmutable::now();
-    }
-
-    /**
-     * Get the last update timestamp of the entity.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getUpdatedAt(): \DateTimeImmutable
-    {
-        return $this->updatedAt;
     }
 
     /**

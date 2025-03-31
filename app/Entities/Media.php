@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Shared\AggregateRoot;
+use App\Shared\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
@@ -11,12 +11,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
-use Carbon\CarbonImmutable;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'media')]
-#[ORM\HasLifecycleCallbacks]
-final class Media extends AggregateRoot
+final class Media extends Entity
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -60,24 +58,6 @@ final class Media extends AggregateRoot
     private string $filePath;
 
     /**
-     * Timestamp when the media was created.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Created at must not be null.')]
-    #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $createdAt;
-
-    /**
-     * Timestamp when the media was last updated.
-     *
-     * @var \DateTimeImmutable
-     */
-    #[Assert\NotNull(message: 'Updated at must not be null.')]
-    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $updatedAt;
-
-    /**
      * The user associated with the media.
      *
      * @var User
@@ -108,10 +88,9 @@ final class Media extends AggregateRoot
         $this->filePath = $filePath;
 
         /**
-         * Sets the created-at and updated-at timestamps to the current time.
+         * Initializes parent timestamps.
          */
-        $this->createdAt = CarbonImmutable::now();
-        $this->updatedAt = CarbonImmutable::now();
+        parent::__construct();
     }
 
     /**
@@ -182,35 +161,6 @@ final class Media extends AggregateRoot
     public function getFilePath(): string
     {
         return $this->filePath;
-    }
-
-    /**
-     * Update the date and time when the media was last updated.
-     */
-    #[ORM\PreUpdate]
-    protected function setUpdatedAtOnUpdate(): void
-    {
-        $this->updatedAt = CarbonImmutable::now();
-    }
-
-    /**
-     * Get the date and time when the media was created.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Get the date and time when the media was last updated.
-     *
-     * @return \DateTimeImmutable
-     */
-    public function getUpdatedAt(): \DateTimeImmutable
-    {
-        return $this->updatedAt;
     }
 
     /**
