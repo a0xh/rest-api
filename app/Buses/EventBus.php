@@ -2,8 +2,9 @@
 
 namespace App\Buses;
 
-use App\Contracts\Interface\EventBusInterface;
 use Illuminate\Bus\Dispatcher;
+use App\Contracts\Interface\Bus\EventBusInterface;
+use App\Shared\Event;
 
 final class EventBus implements EventBusInterface
 {
@@ -14,7 +15,7 @@ final class EventBus implements EventBusInterface
         $this->eventBus = $eventBus;
     }
 
-    public function dispatch(object $event): mixed
+    public function dispatch(Event $event): mixed
     {
         return $this->eventBus->dispatch(event: $event);
     }

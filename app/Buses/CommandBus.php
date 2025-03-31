@@ -2,8 +2,9 @@
 
 namespace App\Buses;
 
-use App\Contracts\Interface\CommandBusInterface;
 use Illuminate\Bus\Dispatcher;
+use App\Contracts\Interface\Bus\CommandBusInterface;
+use App\Shared\Command;
 
 final class CommandBus implements CommandBusInterface
 {
@@ -14,7 +15,7 @@ final class CommandBus implements CommandBusInterface
         $this->commandBus = $commandBus;
     }
 
-    public function send(object $command): mixed
+    public function send(Command $command): mixed
     {
         return $this->commandBus->dispatch(command: $command);
     }

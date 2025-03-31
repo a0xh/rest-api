@@ -2,8 +2,10 @@
 
 namespace App\Contracts\Interface\Bus;
 
+use App\Shared\Query;
+
 interface QueryBusInterface
 {
-    public function ask(object $query): mixed;
+    public function ask(Query $query): mixed;
     public function register(array $map): void;
 }

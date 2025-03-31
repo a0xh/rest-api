@@ -2,8 +2,10 @@
 
 namespace App\Contracts\Interface\Bus;
 
+use App\Shared\Command;
+
 interface CommandBusInterface
 {
-    public function send(object $command): mixed;
+    public function send(Command $command): mixed;
     public function register(array $map): void;
 }

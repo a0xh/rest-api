@@ -2,8 +2,9 @@
 
 namespace App\Buses;
 
-use App\Contracts\Interface\QueryBusInterface;
 use Illuminate\Bus\Dispatcher;
+use App\Contracts\Interface\Bus\QueryBusInterface;
+use App\Shared\Query;
 
 final class QueryBus implements QueryBusInterface
 {
@@ -14,7 +15,7 @@ final class QueryBus implements QueryBusInterface
         $this->queryBus = $queryBus;
     }
 
-    public function ask(object $query): mixed
+    public function ask(Query $query): mixed
     {
         return $this->queryBus->dispatch(command: $query);
     }
