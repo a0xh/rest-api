@@ -3,13 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Contracts\Interface\RoleRepositoryInterface;
+use App\Contracts\Interface\Repository\RoleRepositoryInterface;
 use App\Repositories\Query\RoleQueryRepository;
-use App\Contracts\Interface\PermissionRepositoryInterface;
+use App\Contracts\Interface\Repository\PermissionRepositoryInterface;
 use App\Repositories\Query\PermissionQueryRepository;
-use App\Contracts\Interface\MediaRepositoryInterface;
+use App\Contracts\Interface\Repository\MediaRepositoryInterface;
 use App\Repositories\Query\MediaQueryRepository;
-use App\Contracts\Interface\UserRepositoryInterface;
+use App\Contracts\Interface\Repository\UserRepositoryInterface;
 use App\Repositories\Query\UserQueryRepository;
 
 final class RepositoryServiceProvider extends ServiceProvider

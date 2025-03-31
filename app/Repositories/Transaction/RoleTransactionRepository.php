@@ -3,7 +3,7 @@
 namespace App\Repositories\Transaction;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\RoleRepositoryInterface;
+use App\Contracts\Interface\Repository\RoleRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Doctrine\RoleDoctrineRepository;
 use App\Entities\Role;

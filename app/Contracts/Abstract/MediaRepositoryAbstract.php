@@ -3,7 +3,7 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\MediaRepositoryInterface;
+use App\Contracts\Interface\Repository\MediaRepositoryInterface;
 use App\Entities\Media;
 
 abstract class MediaRepositoryAbstract implements MediaRepositoryInterface

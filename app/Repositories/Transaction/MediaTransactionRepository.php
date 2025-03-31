@@ -3,7 +3,7 @@
 namespace App\Repositories\Transaction;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\MediaRepositoryInterface;
+use App\Contracts\Interface\Repository\MediaRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Doctrine\MediaDoctrineRepository;
 use App\Entities\Media;

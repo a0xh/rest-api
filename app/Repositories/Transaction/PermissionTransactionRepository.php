@@ -3,7 +3,7 @@
 namespace App\Repositories\Transaction;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\PermissionRepositoryInterface;
+use App\Contracts\Interface\Repository\PermissionRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Doctrine\PermissionDoctrineRepository;
 use App\Entities\Permission;

@@ -3,7 +3,7 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\UserRepositoryInterface;
+use App\Contracts\Interface\Repository\UserRepositoryInterface;
 use App\Entities\User;
 
 abstract class UserRepositoryAbstract implements UserRepositoryInterface

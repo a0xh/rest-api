@@ -3,7 +3,7 @@
 namespace App\Repositories\Transaction;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\UserRepositoryInterface;
+use App\Contracts\Interface\Repository\UserRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Doctrine\UserDoctrineRepository;
 use App\Entities\User;

@@ -3,7 +3,7 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\RoleRepositoryInterface;
+use App\Contracts\Interface\Repository\RoleRepositoryInterface;
 use App\Entities\Role;
 
 abstract class RoleRepositoryAbstract implements RoleRepositoryInterface
