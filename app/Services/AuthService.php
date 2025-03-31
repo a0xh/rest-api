@@ -24,12 +24,12 @@ final class AuthService implements UserProvider
 
     public function retrieveByToken($identifier, $token)
     {
-        // Не используется в JWT
+        //
     }
 
     public function updateRememberToken(Authenticatable $user, $token)
     {
-        // Не используется в JWT
+        //
     }
 
     public function retrieveByCredentials(array $credentials)

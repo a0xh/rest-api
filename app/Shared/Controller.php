@@ -9,5 +9,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 abstract class Controller extends BaseController
 {
+    /**
+     * Authorizes requests, dispatches jobs, and validates requests.
+     */
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }
