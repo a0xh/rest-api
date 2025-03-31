@@ -3,12 +3,12 @@
 namespace App\Repositories\Transaction;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\Repository\UserRepositoryInterface;
+use App\Contracts\Interface\Repository\Storage\UserStorageRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Doctrine\UserDoctrineRepository;
 use App\Entities\User;
 
-final class UserTransactionRepository implements UserRepositoryInterface
+final class UserTransactionRepository implements UserStorageRepositoryInterface
 {
 	private UserDoctrineRepository $userDoctrine;
 

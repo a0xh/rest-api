@@ -3,10 +3,10 @@
 namespace App\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Abstract\PermissionRepositoryAbstract;
+use App\Contracts\Interface\Repository\Memory\PermissionMemoryRepositoryInterface;
 use App\Entities\Permission;
 
-final class PermissionMemoryRepository extends PermissionRepositoryAbstract
+final class PermissionMemoryRepository implements PermissionMemoryRepositoryInterface
 {
     private array $collection;
 

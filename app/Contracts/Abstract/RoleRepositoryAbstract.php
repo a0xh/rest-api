@@ -3,16 +3,24 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repository\RoleRepositoryInterface;
+use App\Contracts\Interface\Repository\Storage\RoleStorageRepositoryInterface;
+use App\Contracts\Interface\Repository\Memory\RoleMemoryRepositoryInterface;
 use App\Entities\Role;
 
-abstract class RoleRepositoryAbstract implements RoleRepositoryInterface
+abstract class RoleRepositoryAbstract implements RoleStorageRepositoryInterface
 {
-    private RoleRepositoryInterface $roleRepository;
+    protected function __construct(
+        private readonly RoleStorageRepositoryInterface $storageRepository,
+        private RoleMemoryRepositoryInterface $memoryRepository
+    ) {
+        if (count(value: $this->memoryRepository->all()) === 0)
+        {
+            $collection = collect(value: $this->storageRepository->all());
 
-    public function __construct(RoleRepositoryInterface $roleRepository)
-    {
-        $this->roleRepository = $roleRepository;
+            $collection->each(callback: function(Role $role): void {
+                $this->memoryRepository->save(role: $role);
+            });
+        }
     }
 
     abstract protected function all(): array;

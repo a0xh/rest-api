@@ -15,59 +15,59 @@ final class PermissionQueryRepository extends PermissionRepositoryAbstract
         private PermissionMemoryRepository $memoryRepository
     ) {
         parent::__construct(
-            repository: $cachedRepository,
-            collection: $memoryRepository
+            storageRepository: $cachedRepository,
+            memoryRepository: $memoryRepository
         );
     }
 
     public function all(): array
     {
-        $memory = $this->collection->all();
+        $memory = $this->memoryRepository->all();
 
         if (!empty($memory)) {
             return $memory;
         }
 
-        $cached = $this->repository->all();
+        $cached = $this->cachedRepository->all();
 
         return $cached;
     }
 
     public function findById(UuidInterface $id): ?Permission
     {
-        $memory = $this->collection->findById(id: $id);
+        $memory = $this->memoryRepository->findById(id: $id);
 
         if ($memory !== null) {
             return $memory;
         }
 
-        $cached = $this->repository->findById(id: $id);
+        $cached = $this->cachedRepository->findById(id: $id);
 
         return $cached;
     }
 
     public function findBySlug(string $slug): ?Permission
     {
-        $memory = $this->collection->findBySlug(slug: $slug);
+        $memory = $this->memoryRepository->findBySlug(slug: $slug);
 
         if ($memory !== null) {
             return $memory;
         }
         
-        $cached = $this->repository->findBySlug(slug: $slug);
+        $cached = $this->cachedRepository->findBySlug(slug: $slug);
         
         return $cached;
     }
 
     public function save(Permission $permission): void
     {
-        $this->collection->save(permission: $permission);
-        $this->repository->save(permission: $permission);
+        $this->memoryRepository->save(permission: $permission);
+        $this->cachedRepository->save(permission: $permission);
     }
 
     public function remove(Permission $permission): void
     {
-        $this->collection->remove(permission: $permission);
-        $this->repository->remove(permission: $permission);
+        $this->memoryRepository->remove(permission: $permission);
+        $this->cachedRepository->remove(permission: $permission);
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Abstract\MediaRepositoryAbstract;
+use App\Contracts\Interface\Repository\Memory\MediaMemoryRepositoryInterface;
 use App\Entities\Media;
 
-final class MediaMemoryRepository extends MediaRepositoryAbstract
+final class MediaMemoryRepository implements MediaMemoryRepositoryInterface
 {
     private array $collection;
 

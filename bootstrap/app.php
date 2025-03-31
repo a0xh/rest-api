@@ -8,7 +8,6 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Responses\MessageResponse;
 use Illuminate\Http\Middleware\HandleCors;
 use App\Middlewares\ApiRequestLogger;
-use Illuminate\Http\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(

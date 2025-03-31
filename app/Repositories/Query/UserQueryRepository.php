@@ -12,62 +12,62 @@ final class UserQueryRepository extends UserRepositoryAbstract
 {
     public function __construct(
         private UserCachedRepository $cachedRepository,
-        private UserMemoryRepository $memory
+        private UserMemoryRepository $memoryRepository
     ) {
         parent::__construct(
-            repository: $cachedRepository,
-            collection: $memoryRepository
+            storageRepository: $cachedRepository,
+            memoryRepository: $memoryRepository
         );
     }
 
     public function all(): array
     {
-        $memory = $this->collection->all();
+        $memory = $this->memoryRepository->all();
 
         if (!empty($memory)) {
             return $memory;
         }
 
-        $cached = $this->repository->all();
+        $cached = $this->storageRepository->all();
 
         return $cached;
     }
 
     public function findById(UuidInterface $id): ?User
     {
-        $memory = $this->collection->findById(id: $id);
+        $memory = $this->memoryRepository->findById(id: $id);
 
         if ($memory !== null) {
             return $memory;
         }
 
-        $cached = $this->repository->findById(id: $id);
+        $cached = $this->storageRepository->findById(id: $id);
 
         return $cached;
     }
 
     public function findByEmail(string $email): ?User
     {
-        $memory = $this->collection->findByEmail(email: $email);
+        $memory = $this->memoryRepository->findByEmail(email: $email);
 
         if ($memory !== null) {
             return $memory;
         }
         
-        $cached = $this->repository->findByEmail(email: $email);
+        $cached = $this->storageRepository->findByEmail(email: $email);
         
         return $cached;
     }
 
     public function save(User $user): void
     {
-        $this->collection->save(user: $user);
-        $this->repository->save(user: $user);
+        $this->memoryRepository->save(user: $user);
+        $this->storageRepository->save(user: $user);
     }
 
     public function remove(User $user): void
     {
-        $this->collection->remove(user: $user);
-        $this->repository->remove(user: $user);
+        $this->memoryRepository->remove(user: $user);
+        $this->storageRepository->remove(user: $user);
     }
 }

@@ -15,59 +15,59 @@ final class RoleQueryRepository extends RoleRepositoryAbstract
         private RoleMemoryRepository $memoryRepository
     ) {
         parent::__construct(
-            repository: $cachedRepository,
-            collection: $memoryRepository
+            storageRepository: $cachedRepository,
+            memoryRepository: $memoryRepository
         );
     }
 
     public function all(): array
     {
-        $memory = $this->collection->all();
+        $memory = $this->memoryRepository->all();
 
         if (!empty($memory)) {
             return $memory;
         }
 
-        $cached = $this->repository->all();
+        $cached = $this->storageRepository->all();
 
         return $cached;
     }
 
     public function findById(UuidInterface $id): ?Role
     {
-        $memory = $this->collection->findById(id: $id);
+        $memory = $this->memoryRepository->findById(id: $id);
 
         if ($memory !== null) {
             return $memory;
         }
 
-        $cached = $this->repository->findById(id: $id);
+        $cached = $this->storageRepository->findById(id: $id);
 
         return $cached;
     }
 
     public function findBySlug(string $slug): ?Role
     {
-        $memory = $this->collection->findBySlug(slug: $slug);
+        $memory = $this->memoryRepository->findBySlug(slug: $slug);
 
         if ($memory !== null) {
             return $memory;
         }
         
-        $cached = $this->repository->findBySlug(slug: $slug);
+        $cached = $this->memoryRepository->findBySlug(slug: $slug);
         
         return $cached;
     }
 
     public function save(Role $role): void
     {
-        $this->collection->save(role: $role);
-        $this->repository->save(role: $role);
+        $this->memoryRepository->save(role: $role);
+        $this->storageRepository->save(role: $role);
     }
 
     public function remove(Role $role): void
     {
-        $this->collection->remove(role: $role);
-        $this->repository->remove(role: $role);
+        $this->memoryRepository->remove(role: $role);
+        $this->storageRepository->remove(role: $role);
     }
 }

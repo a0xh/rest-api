@@ -3,12 +3,12 @@
 namespace App\Repositories\Transaction;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\Repository\PermissionRepositoryInterface;
+use App\Contracts\Interface\Repository\Storage\PermissionStorageRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Doctrine\PermissionDoctrineRepository;
 use App\Entities\Permission;
 
-final class PermissionTransactionRepository implements PermissionRepositoryInterface
+final class PermissionTransactionRepository implements PermissionStorageRepositoryInterface
 {
 	private PermissionDoctrineRepository $permissionDoctrine;
 

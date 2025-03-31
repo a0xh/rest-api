@@ -7,9 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Shared\Controller;
+use App\Contracts\Interface\Repository\Storage\UserStorageRepositoryInterface;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        private UserStorageRepositoryInterface $userRepository
+    ) {}
+    
+    public function test()
+    {
+        dd($this->userRepository->all());
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');

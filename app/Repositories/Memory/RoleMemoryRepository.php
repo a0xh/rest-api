@@ -3,10 +3,10 @@
 namespace App\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Abstract\RoleRepositoryAbstract;
+use App\Contracts\Interface\Repository\Memory\RoleMemoryRepositoryInterface;
 use App\Entities\Role;
 
-final class RoleMemoryRepository extends RoleRepositoryAbstract
+final class RoleMemoryRepository implements RoleMemoryRepositoryInterface
 {
     private array $collection;
 

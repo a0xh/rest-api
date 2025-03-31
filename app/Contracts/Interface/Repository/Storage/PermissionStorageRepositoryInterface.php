@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Contracts\Interface\Repository;
+namespace App\Contracts\Interface\Repository\Storage;
 
 use App\Entities\Permission;
 
-interface PermissionRepositoryInterface
+interface PermissionStorageRepositoryInterface
 {
     public function save(Permission $permission): void;
     public function remove(Permission $permission): void;

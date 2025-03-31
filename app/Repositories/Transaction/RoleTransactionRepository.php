@@ -3,12 +3,12 @@
 namespace App\Repositories\Transaction;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\Repository\RoleRepositoryInterface;
+use App\Contracts\Interface\Repository\Storage\RoleStorageRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Doctrine\RoleDoctrineRepository;
 use App\Entities\Role;
 
-final class RoleTransactionRepository implements RoleRepositoryInterface
+final class RoleTransactionRepository implements RoleStorageRepositoryInterface
 {
 	private RoleDoctrineRepository $roleDoctrine;
 
