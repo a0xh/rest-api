@@ -3,14 +3,14 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Contracts\Interface\Repository\Storage\RoleStorageRepositoryInterface;
-use App\Repositories\Query\RoleQueryRepository;
-use App\Contracts\Interface\Repository\Storage\PermissionStorageRepositoryInterface;
-use App\Repositories\Query\PermissionQueryRepository;
-use App\Contracts\Interface\Repository\Storage\MediaStorageRepositoryInterface;
-use App\Repositories\Query\MediaQueryRepository;
-use App\Contracts\Interface\Repository\Storage\UserStorageRepositoryInterface;
-use App\Repositories\Query\UserQueryRepository;
+use App\Contracts\Interface\Repositories\RoleRepositoryInterface;
+use App\Repositories\RoleRepository;
+use App\Contracts\Interface\Repositories\PermissionRepositoryInterface;
+use App\Repositories\PermissionRepository;
+use App\Contracts\Interface\Repositories\MediaRepositoryInterface;
+use App\Repositories\MediaRepository;
+use App\Contracts\Interface\Repositories\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 
 final class RepositoryServiceProvider extends ServiceProvider
 {
@@ -20,23 +20,23 @@ final class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            abstract: RoleStorageRepositoryInterface::class,
-            concrete: RoleQueryRepository::class
+            abstract: RoleRepositoryInterface::class,
+            concrete: RoleRepository::class
         );
         
         $this->app->bind(
-            abstract: PermissionStorageRepositoryInterface::class,
-            concrete: PermissionQueryRepository::class
+            abstract: PermissionRepositoryInterface::class,
+            concrete: PermissionRepository::class
         );
         
         $this->app->bind(
-            abstract: MediaStorageRepositoryInterface::class,
-            concrete: MediaQueryRepository::class
+            abstract: MediaRepositoryInterface::class,
+            concrete: MediaRepository::class
         );
         
         $this->app->bind(
-            abstract: UserStorageRepositoryInterface::class,
-            concrete: UserQueryRepository::class
+            abstract: UserRepositoryInterface::class,
+            concrete: UserRepository::class
         );
     }
 }

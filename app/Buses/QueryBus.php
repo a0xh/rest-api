@@ -3,7 +3,7 @@
 namespace App\Buses;
 
 use Illuminate\Bus\Dispatcher;
-use App\Contracts\Interface\Bus\QueryBusInterface;
+use App\Contracts\Interface\Buses\QueryBusInterface;
 use App\Shared\Query;
 
 final class QueryBus implements QueryBusInterface

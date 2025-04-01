@@ -3,7 +3,7 @@
 namespace App\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repository\Memory\RoleMemoryRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\RoleMemoryRepositoryInterface;
 use App\Entities\Role;
 
 final class RoleMemoryRepository implements RoleMemoryRepositoryInterface

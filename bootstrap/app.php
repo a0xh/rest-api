@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use App\Shared\Application;
+use App\Services\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\{Request, Response};

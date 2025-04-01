@@ -3,9 +3,8 @@
 namespace App\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Support\MessageBag;
-use Illuminate\Http\{JsonResponse, Response};
 use Illuminate\Support\Facades\Context;
+use Illuminate\Http\{JsonResponse, Response};
 
 final class FailedValidationExceptionResponse implements Responsable
 {

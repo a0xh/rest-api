@@ -3,7 +3,7 @@
 namespace App\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repository\Memory\MediaMemoryRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\MediaMemoryRepositoryInterface;
 use App\Entities\Media;
 
 final class MediaMemoryRepository implements MediaMemoryRepositoryInterface

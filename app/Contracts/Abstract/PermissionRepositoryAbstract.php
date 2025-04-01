@@ -3,8 +3,8 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repository\Storage\PermissionStorageRepositoryInterface;
-use App\Contracts\Interface\Repository\Memory\PermissionMemoryRepositoryInterface;
+use App\Contracts\Interface\Repositories\Storage\PermissionStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\PermissionMemoryRepositoryInterface;
 use App\Entities\Permission;
 
 abstract class PermissionRepositoryAbstract implements PermissionStorageRepositoryInterface

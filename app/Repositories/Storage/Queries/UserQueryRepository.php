@@ -1,0 +1,79 @@
+<?php declare(strict_types=1);
+
+namespace App\Repositories\Storage\Queries;
+
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
+use App\Contracts\Abstract\UserRepositoryAbstract;
+use Ramsey\Uuid\UuidInterface;
+use App\Entities\User;
+
+final class UserQueryRepository extends UserRepositoryAbstract
+{
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    public function all(): array
+    {
+        return $this->entityManager->getRepository(
+            className: User::class
+        )->findBy(
+            criteria: [],
+            orderBy: ['createdAt' => 'DESC']
+        );
+    }
+
+    public function findById(UuidInterface $id): ?User
+    {
+        return $this->entityManager->getRepository(
+            className: User::class
+        )->find(
+            id: $id
+        );
+    }
+
+    public function findByEmail(string $email): ?User
+    {
+        return $this->entityManager->getRepository(
+            className: User::class
+        )->findOneBy(
+            criteria: ['email' => $email]
+        );
+    }
+
+    public function save(User $user): void
+    {
+        try {
+            $this->entityManager->persist(object: $user);
+            $this->entityManager->flush();
+        }
+
+        catch (ORMException $e) {
+            throw new \RuntimeException(
+                message: "Failed To Save User: {$e->getMessage()}",
+                code: (int) $e->getCode(),
+                previous: $e
+            );
+        }
+    }
+
+    public function remove(User $user): void
+    {
+        try {
+            $this->entityManager->remove(object: $user);
+            $this->entityManager->flush();
+        }
+
+        catch (ORMException $e) {
+            throw new \RuntimeException(
+                message: "Failed To Delete User: {$e->getMessage()}",
+                code: (int) $e->getCode(),
+                previous: $e
+            );
+        }
+    }
+}

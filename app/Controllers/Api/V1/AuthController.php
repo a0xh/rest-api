@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Shared\Controller;
-use App\Contracts\Interface\Repository\Storage\UserStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\UserRepositoryInterface;
 
 class AuthController extends Controller
 {
     public function __construct(
-        private UserStorageRepositoryInterface $userRepository
+        private UserRepositoryInterface $userRepository
     ) {}
     
     public function test()

@@ -3,7 +3,7 @@
 namespace App\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repository\Memory\PermissionMemoryRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\PermissionMemoryRepositoryInterface;
 use App\Entities\Permission;
 
 final class PermissionMemoryRepository implements PermissionMemoryRepositoryInterface

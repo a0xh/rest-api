@@ -3,7 +3,7 @@
 namespace App\Buses;
 
 use Illuminate\Bus\Dispatcher;
-use App\Contracts\Interface\Bus\EventBusInterface;
+use App\Contracts\Interface\Buses\EventBusInterface;
 use App\Shared\Event;
 
 final class EventBus implements EventBusInterface

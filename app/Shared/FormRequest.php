@@ -2,10 +2,11 @@
 
 namespace App\Shared;
 
-use App\Responses\FailedValidationExceptionResponse;
-use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
+use Illuminate\Http\{JsonResponse, Response};
+use Illuminate\Support\Facades\Context;
 
 abstract class FormRequest extends BaseFormRequest
 {
@@ -28,16 +29,26 @@ abstract class FormRequest extends BaseFormRequest
      * Handle failed validation.
      *
      * @param Validator $validator
+     * 
      * @return void
      */
     protected function failedValidation(Validator $validator): void
     {
-        $response = new FailedValidationExceptionResponse(
-            errors: $validator->errors()
-        );
-
         throw new HttpResponseException(
-            response: $response->toResponse(request: $this->request)
+            response: new JsonResponse(
+                data: [
+                    'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                    'result' => [
+                        'message' => __('Validation Error.'),
+                        'errors' => $validator->errors()
+                    ],
+                    'metadata' => [
+                        'request_id' => Context::get(key: 'request_id'),
+                        'timestamp' => Context::get(key: 'timestamp')
+                    ],
+                ],
+                status: Response::HTTP_UNPROCESSABLE_ENTITY
+            )
         );
     }
 }

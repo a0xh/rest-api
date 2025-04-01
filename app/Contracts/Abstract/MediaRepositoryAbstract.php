@@ -3,8 +3,8 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repository\Storage\MediaStorageRepositoryInterface;
-use App\Contracts\Interface\Repository\Memory\MediaMemoryRepositoryInterface;
+use App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\MediaMemoryRepositoryInterface;
 use App\Entities\Media;
 
 abstract class MediaRepositoryAbstract implements MediaStorageRepositoryInterface

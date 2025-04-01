@@ -1,0 +1,47 @@
+<?php declare(strict_types=1);
+
+namespace App\Modules\Account\Requests;
+
+use App\Shared\FormRequest;
+use Illuminate\Validation\Rules\Password;
+
+final class CreateUserRequest extends FormRequest
+{
+	/**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        $pwdRules = Password::min(size: 8)->letters()->numbers()->symbols();
+
+        return [
+            'avatar' => ['bail', 'nullable', 'image', 'mimes:jpeg,jpg,png,gif', 'max:3072'],
+            'first_name' => ['bail', 'required', 'string', 'min:2', 'max:18'],
+            'last_name' => ['bail', 'required', 'string', 'min:2', 'max:27'],
+            'patronymic' => ['bail', 'nullable', 'string', 'min:2', 'max:16'],
+            'phone' => ['bail', 'nullable', 'string', 'min:11', 'max:20', 'unique:users,phone'],
+            'email' => [
+                'bail', 'required', 'email:rfc,strict,spoof,dns', 'max:254', 'unique:users,email'
+            ],
+            'password' => ['bail', 'required', 'string', $pwdRules, 'confirmed'],
+            'status' => ['bail', 'required', 'boolean'],
+            'role_id' => ['bail', 'required', 'uuid', 'exists:roles,id']
+        ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->has(key: 'status')) {
+            $this->merge(
+            	input: ['status' => filter_var(
+	                value: $this->boolean(key: 'status'),
+	                filter: FILTER_VALIDATE_BOOLEAN,
+	                options: FILTER_NULL_ON_FAILURE
+	            )
+            ]);
+        }
+    }
+}
+

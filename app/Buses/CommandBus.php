@@ -3,7 +3,7 @@
 namespace App\Buses;
 
 use Illuminate\Bus\Dispatcher;
-use App\Contracts\Interface\Bus\CommandBusInterface;
+use App\Contracts\Interface\Buses\CommandBusInterface;
 use App\Shared\Command;
 
 final class CommandBus implements CommandBusInterface

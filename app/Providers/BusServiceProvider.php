@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Contracts\Interface\Bus\CommandBusInterface;
+use App\Contracts\Interface\Buses\CommandBusInterface;
 use App\Buses\CommandBus;
-use App\Contracts\Interface\Bus\EventBusInterface;
+use App\Contracts\Interface\Buses\EventBusInterface;
 use App\Buses\EventBus;
-use App\Contracts\Interface\Bus\QueryBusInterface;
+use App\Contracts\Interface\Buses\QueryBusInterface;
 use App\Buses\QueryBus;
 
 final class BusServiceProvider extends ServiceProvider

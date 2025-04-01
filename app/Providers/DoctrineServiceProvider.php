@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Shared\Application;
+use App\Services\Application;
 use Illuminate\Support\ServiceProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityManager;
