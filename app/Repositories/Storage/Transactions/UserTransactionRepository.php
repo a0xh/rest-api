@@ -3,12 +3,12 @@
 namespace App\Repositories\Storage\Transactions;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\Repositories\Storage\UserStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\UserRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Storage\Queries\UserQueryRepository;
 use App\Entities\User;
 
-final class UserTransactionRepository implements UserStorageRepositoryInterface
+final class UserTransactionRepository implements UserRepositoryInterface
 {
 	private UserQueryRepository $userQuery;
 

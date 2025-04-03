@@ -2,13 +2,12 @@
 
 namespace App\Repositories\Storage\Queries;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
-use App\Contracts\Abstract\PermissionRepositoryAbstract;
-use Ramsey\Uuid\UuidInterface;
 use App\Entities\Permission;
+use App\Contracts\Interface\Repositories\Storage\PermissionStorageRepositoryInterface;
+use Doctrine\ORM\{EntityManagerInterface, ORMException};
+use Ramsey\Uuid\UuidInterface;
 
-final class PermissionQueryRepository extends PermissionRepositoryAbstract
+final class PermissionQueryRepository implements PermissionStorageRepositoryInterface
 {
     private EntityManagerInterface $entityManager;
 
@@ -54,7 +53,7 @@ final class PermissionQueryRepository extends PermissionRepositoryAbstract
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Save Permission: {$e->getMessage()}",
+                message: "Failed to save permission: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );
@@ -70,7 +69,7 @@ final class PermissionQueryRepository extends PermissionRepositoryAbstract
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Delete Permission: {$e->getMessage()}",
+                message: "Failed to delete permission: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );

@@ -2,7 +2,10 @@
 
 namespace App\Contracts\Interface\Repositories;
 
+use App\Entities\Permission;
+
 interface PermissionRepositoryInterface
 {
-    //
+    public function save(Permission $permission): void;
+    public function remove(Permission $permission): void;
 }

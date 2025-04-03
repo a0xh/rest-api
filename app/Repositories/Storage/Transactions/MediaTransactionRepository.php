@@ -3,12 +3,12 @@
 namespace App\Repositories\Storage\Transactions;
 
 use Illuminate\Support\Facades\{DB, Log};
-use App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\MediaRepositoryInterface;
 use Illuminate\Database\QueryException;
 use App\Repositories\Storage\Queries\MediaQueryRepository;
 use App\Entities\Media;
 
-final class MediaTransactionRepository implements MediaStorageRepositoryInterface
+final class MediaTransactionRepository implements MediaRepositoryInterface
 {
 	private MediaQueryRepository $mediaQuery;
 

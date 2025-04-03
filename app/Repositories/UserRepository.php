@@ -3,21 +3,22 @@
 namespace App\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Repositories\Storage\Cached\UserCachedRepository;
 use App\Contracts\Abstract\UserRepositoryAbstract;
-use App\Repositories\Memory\UserMemoryRepository;
+use App\Contracts\Interface\Repositories\Storage\UserStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\UserMemoryRepositoryInterface;
 use App\Entities\User;
 
 final class UserRepository extends UserRepositoryAbstract
 {
     public function __construct(
-        private UserCachedRepository $cachedRepository,
-        private UserMemoryRepository $memoryRepository
+        protected UserStorageRepositoryInterface $storageRepository,
+        protected UserMemoryRepositoryInterface $memoryRepository
     ) {
         parent::__construct(
-            storageRepository: $cachedRepository,
+            storageRepository: $storageRepository,
             memoryRepository: $memoryRepository
         );
+
     }
 
     public function all(): array

@@ -3,15 +3,16 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
+use App\Contracts\Interface\Repositories\PermissionRepositoryInterface;
 use App\Contracts\Interface\Repositories\Storage\PermissionStorageRepositoryInterface;
 use App\Contracts\Interface\Repositories\Memory\PermissionMemoryRepositoryInterface;
 use App\Entities\Permission;
 
-abstract class PermissionRepositoryAbstract implements PermissionStorageRepositoryInterface
+abstract class PermissionRepositoryAbstract implements PermissionRepositoryInterface
 {
     protected function __construct(
-        private readonly PermissionStorageRepositoryInterface $storageRepository,
-        private PermissionMemoryRepositoryInterface $memoryRepository
+        protected PermissionStorageRepositoryInterface $storageRepository,
+        protected PermissionMemoryRepositoryInterface $memoryRepository
     ) {
         if (count(value: $this->memoryRepository->all()) === 0)
         {

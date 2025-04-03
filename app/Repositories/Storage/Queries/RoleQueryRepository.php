@@ -2,13 +2,12 @@
 
 namespace App\Repositories\Storage\Queries;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
-use App\Contracts\Abstract\RoleRepositoryAbstract;
-use Ramsey\Uuid\UuidInterface;
 use App\Entities\Role;
+use App\Contracts\Interface\Repositories\Storage\RoleStorageRepositoryInterface;
+use Doctrine\ORM\{EntityManagerInterface, ORMException};
+use Ramsey\Uuid\UuidInterface;
 
-final class RoleQueryRepository extends RoleRepositoryAbstract
+final class RoleQueryRepository implements RoleStorageRepositoryInterface
 {
     private EntityManagerInterface $entityManager;
 
@@ -54,7 +53,7 @@ final class RoleQueryRepository extends RoleRepositoryAbstract
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Save Role: {$e->getMessage()}",
+                message: "Failed to save role: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );
@@ -70,7 +69,7 @@ final class RoleQueryRepository extends RoleRepositoryAbstract
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Delete Role: {$e->getMessage()}",
+                message: "Failed to delete role: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );

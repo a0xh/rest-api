@@ -1,19 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace App\Controllers\Api\V1\User\Create;
+namespace App\Controllers\Api\V1\User\Update;
 
 use App\Shared\Controller as Action;
-use App\Modules\Account\Requests\CreateUserRequest;
-use App\Modules\Account\Commands\CreateUserCommand;
+use App\Modules\Account\Requests\UpdateUserRequest;
+use App\Modules\Account\Commands\UpdateUserCommand;
 use App\Contracts\Interface\Buses\CommandBusInterface;
 use Spatie\RouteAttributes\Attributes\Prefix;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Route;
-use App\Responses\MessageResponse;
+use App\Interaction\Responses\MessageResponse;
 
 #[Prefix(prefix: 'v1')]
 #[Middleware(middleware: 'auth:api')]
-final class CreateUserAction extends Action
+final class UpdateUserAction extends Action
 {
 	private readonly CommandBusInterface $commandBus;
 
@@ -22,13 +22,13 @@ final class CreateUserAction extends Action
 		$this->commandBus = $commandBus;
 	}
 
-	#[Route(methods: ['POST'], uri: '/users/create')]
+	#[Route(methods: ['PUT'], uri: '/users/{id}/update')]
 	public function __invoke(
-		CreateUserRequest $request): MessageResponse
+		string $id, UpdateUserRequest $request): MessageResponse
 	{
-		return new CreateUserResponder()->respond(
+		return new UpdateUserResponder()->respond(
 			result: $this->commandBus->send(
-				command: CreateUserCommand::fromRequest(
+				command: UpdateUserCommand::fromRequest(
 					request: $request
 				)
 			)

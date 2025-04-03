@@ -3,15 +3,16 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
+use App\Contracts\Interface\Repositories\MediaRepositoryInterface;
 use App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface;
 use App\Contracts\Interface\Repositories\Memory\MediaMemoryRepositoryInterface;
 use App\Entities\Media;
 
-abstract class MediaRepositoryAbstract implements MediaStorageRepositoryInterface
+abstract class MediaRepositoryAbstract implements MediaRepositoryInterface
 {
     protected function __construct(
-        private readonly MediaStorageRepositoryInterface $storageRepository,
-        private MediaMemoryRepositoryInterface $memoryRepository
+        protected MediaStorageRepositoryInterface $storageRepository,
+        protected MediaMemoryRepositoryInterface $memoryRepository
     ) {
         if (count(value: $this->memoryRepository->all()) === 0)
         {

@@ -5,7 +5,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 return [
     'connection' => [
         'driver' => 'pdo_pgsql',
-        'host' => env('DB_HOST', 'database'),
+        'host' => env('DB_HOST', 'postgres'),
         'port' => env('DB_PORT', '5432'),
         'dbname' => env('DB_DATABASE', 'database'),
         'user' => env('DB_USERNAME', 'user'),

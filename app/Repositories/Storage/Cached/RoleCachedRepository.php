@@ -2,15 +2,15 @@
 
 namespace App\Repositories\Storage\Cached;
 
-use App\Contracts\Abstract\RoleRepositoryAbstract;
-use Illuminate\Support\Facades\Cache;
+use App\Entities\Role;
 use App\Repositories\Storage\Transactions\RoleTransactionRepository;
+use Illuminate\Support\Facades\Cache;
+use App\Contracts\Interface\Repositories\Storage\RoleStorageRepositoryInterface;
 use Ramsey\Uuid\UuidInterface;
 use App\Repositories\Storage\Queries\RoleQueryRepository;
-use App\Entities\Role;
 use Carbon\Carbon;
 
-final class RoleCachedRepository extends RoleRepositoryAbstract
+final class RoleCachedRepository implements RoleStorageRepositoryInterface
 {
 	private const CACHE_ROLE_ALL_KEY = 'roles';
 

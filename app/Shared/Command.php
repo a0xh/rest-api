@@ -2,19 +2,19 @@
 
 namespace App\Shared;
 
-use WendellAdriel\ValidatedDTO\ValidatedDTO;
+use WendellAdriel\ValidatedDTO\SimpleDTO;
 use WendellAdriel\ValidatedDTO\Concerns\EmptyCasts;
 
-abstract class Command extends ValidatedDTO
+abstract class Command extends SimpleDTO
 {
     use EmptyCasts;
 
-    protected function rules(): array
+    public function rules(): array
     {
         return [];
     }
 
-    protected function defaults(): array
+    public function defaults(): array
     {
         return [];
     }

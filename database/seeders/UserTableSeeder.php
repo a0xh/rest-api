@@ -31,7 +31,9 @@ final class UserTableSeeder extends Seeder
         );
 
         if (empty($roles)) {
-            throw new \RuntimeException('No roles found in the database.');
+            throw new \RuntimeException(
+                message: 'No roles found in the database.'
+            );
         }
 
         for ($i = 0; $i < 10; $i++) {

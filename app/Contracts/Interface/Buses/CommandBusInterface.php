@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Buses\Interface;
+namespace App\Contracts\Interface\Buses;
 
 use App\Shared\Command;
 

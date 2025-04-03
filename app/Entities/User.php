@@ -18,7 +18,7 @@ use Carbon\Carbon;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
-final class User extends Entity implements JWTSubject, AuthenticatableContract
+class User extends Entity implements JWTSubject, AuthenticatableContract
 {
     use Authenticatable;
 
@@ -454,9 +454,7 @@ final class User extends Entity implements JWTSubject, AuthenticatableContract
     {
         return [
             'id' => $this->getId(),
-            'phone' => $this->getPhone(),
             'email' => $this->getEmail(),
-            'role' => $this->getRole()?->getName(),
         ];
     }
 

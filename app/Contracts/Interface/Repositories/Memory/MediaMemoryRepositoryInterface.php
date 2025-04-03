@@ -3,10 +3,10 @@
 namespace App\Contracts\Interface\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\MediaRepositoryInterface;
 use App\Entities\Media;
 
-interface MediaMemoryRepositoryInterface extends MediaStorageRepositoryInterface
+interface MediaMemoryRepositoryInterface extends MediaRepositoryInterface
 {
     public function all(): array;
     public function findById(UuidInterface $id): ?Media;

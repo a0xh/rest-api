@@ -18,7 +18,8 @@ final class ApiRequestLogger
         Context::add(key: 'method', value: $request->method());
 
         if ($request->user()) {
-            Context::add(key: 'user_id', value: $request->user()->id);
+            $userId = $request->user()->getId()->toString();
+            Context::add(key: 'user_id', value: $userId);
         }
 
         $startTime = microtime(as_float: true);

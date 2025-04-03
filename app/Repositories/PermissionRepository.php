@@ -3,19 +3,19 @@
 namespace App\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Repositories\Storage\Cached\PermissionCachedRepository;
+use App\Contracts\Interface\Repositories\Storage\PermissionStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\PermissionMemoryRepositoryInterface;
 use App\Contracts\Abstract\PermissionRepositoryAbstract;
-use App\Repositories\Memory\PermissionMemoryRepository;
 use App\Entities\Permission;
 
 final class PermissionRepository extends PermissionRepositoryAbstract
 {
     public function __construct(
-        private PermissionCachedRepository $cachedRepository,
-        private PermissionMemoryRepository $memoryRepository
+        protected PermissionStorageRepositoryInterface $storageRepository,
+        protected PermissionMemoryRepositoryInterface $memoryRepository
     ) {
         parent::__construct(
-            storageRepository: $cachedRepository,
+            storageRepository: $storageRepository,
             memoryRepository: $memoryRepository
         );
     }

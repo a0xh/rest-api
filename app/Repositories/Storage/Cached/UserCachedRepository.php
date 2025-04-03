@@ -2,15 +2,15 @@
 
 namespace App\Repositories\Storage\Cached;
 
-use App\Contracts\Abstract\UserRepositoryAbstract;
-use Illuminate\Support\Facades\Cache;
+use App\Entities\User;
 use App\Repositories\Storage\Transactions\UserTransactionRepository;
+use Illuminate\Support\Facades\Cache;
+use App\Contracts\Interface\Repositories\Storage\UserStorageRepositoryInterface;
 use Ramsey\Uuid\UuidInterface;
 use App\Repositories\Storage\Queries\UserQueryRepository;
-use App\Entities\User;
 use Carbon\Carbon;
 
-final class UserCachedRepository extends UserRepositoryAbstract
+final class UserCachedRepository implements UserStorageRepositoryInterface
 {
 	private const CACHE_USER_ALL_KEY = 'users';
 

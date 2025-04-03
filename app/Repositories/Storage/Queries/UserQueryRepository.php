@@ -2,13 +2,12 @@
 
 namespace App\Repositories\Storage\Queries;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
-use App\Contracts\Abstract\UserRepositoryAbstract;
-use Ramsey\Uuid\UuidInterface;
 use App\Entities\User;
+use App\Contracts\Interface\Repositories\Storage\UserStorageRepositoryInterface;
+use Doctrine\ORM\{EntityManagerInterface, ORMException};
+use Ramsey\Uuid\UuidInterface;
 
-final class UserQueryRepository extends UserRepositoryAbstract
+final class UserQueryRepository implements UserStorageRepositoryInterface
 {
     private EntityManagerInterface $entityManager;
 
@@ -53,8 +52,18 @@ final class UserQueryRepository extends UserRepositoryAbstract
         }
 
         catch (ORMException $e) {
+            Log::error(
+                message: 'User creation failed: ' . $e->getMessage(),
+                context: [
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ]
+            );
+
             throw new \RuntimeException(
-                message: "Failed To Save User: {$e->getMessage()}",
+                message: "Failed to save user: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );
@@ -69,8 +78,18 @@ final class UserQueryRepository extends UserRepositoryAbstract
         }
 
         catch (ORMException $e) {
+            Log::error(
+                message: 'User deletion failed: ' . $e->getMessage(),
+                context: [
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ]
+            );
+
             throw new \RuntimeException(
-                message: "Failed To Delete User: {$e->getMessage()}",
+                message: "Failed to delete user: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );

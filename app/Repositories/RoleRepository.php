@@ -3,19 +3,19 @@
 namespace App\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Repositories\Storage\Cached\RoleCachedRepository;
+use App\Contracts\Interface\Repositories\Storage\RoleStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\RoleMemoryRepositoryInterface;
 use App\Contracts\Abstract\RoleRepositoryAbstract;
-use App\Repositories\Memory\RoleMemoryRepository;
 use App\Entities\Role;
 
 final class RoleRepository extends RoleRepositoryAbstract
 {
     public function __construct(
-        private RoleCachedRepository $cachedRepository,
-        private RoleMemoryRepository $memoryRepository
+        protected RoleStorageRepositoryInterface $storageRepository,
+        protected RoleMemoryRepositoryInterface $memoryRepository
     ) {
         parent::__construct(
-            storageRepository: $cachedRepository,
+            storageRepository: $storageRepository,
             memoryRepository: $memoryRepository
         );
     }

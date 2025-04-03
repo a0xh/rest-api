@@ -13,9 +13,10 @@ return [
      * Optionally, you can specify group configuration by using key/values
      */
     'directories' => [
-        app_path(path: 'Controllers/Api/V1/User/Create') => [
-            'namespace' => 'App\Controllers\Api\V1\User\Create\\',
+        app_path('Controllers/Api/V1') => [
+            'namespace' => 'App\Controllers\Api\V1',
             'prefix' => 'api',
+            'middleware' => ['api'],
             'patterns' => ['*Action.php']
         ],
     ],

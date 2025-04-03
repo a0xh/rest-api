@@ -24,12 +24,12 @@ final class BusServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             abstract: EventBusInterface::class,
-            concrete: QueryBus::class
+            concrete: EventBus::class
         );
 
         $this->app->singleton(
             abstract: QueryBusInterface::class,
-            concrete: EventBus::class
+            concrete: QueryBus::class
         );
     }
 }

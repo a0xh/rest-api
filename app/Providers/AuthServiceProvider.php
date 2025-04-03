@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Shared\Application;
+use App\Services\Application;
 use Illuminate\Support\ServiceProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\Facades\Auth;
-use App\Services\AuthService;
+use App\Services\Authenticate;
 
 final class AuthServiceProvider extends ServiceProvider
 {
@@ -16,8 +16,8 @@ final class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Auth::provider(name: 'doctrine',
-            callback: function (Application $app, array $config): AuthService {
-                return new AuthService(em: $app->make(
+            callback: function (Application $app, array $config): Authenticate {
+                return new Authenticate(entityManager: $app->make(
                     abstract: EntityManagerInterface::class
                 ));
             }

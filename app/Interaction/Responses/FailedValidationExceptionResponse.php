@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Responses;
+namespace App\Interaction\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Context;

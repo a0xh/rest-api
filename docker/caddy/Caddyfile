@@ -1,0 +1,41 @@
+https://localhost {
+	tls /var/www/html/certs/localhost.pem /var/www/html/certs/localhost-key.pem
+	root * /var/www/html/public
+
+	# Установка заголовков безопасности и кодировки
+	header {
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		Referrer-Policy "no-referrer-when-downgrade"
+		Permissions-Policy "geolocation=(), microphone=(), camera=()"
+	}
+
+	# Логирование
+	log {
+		output file /var/log/caddy/access.log
+	}
+
+	# Обработка favicon.ico
+	route /favicon.ico {
+		file_server
+	}
+
+	# Обработка robots.txt
+	route /robots.txt {
+		file_server
+	}
+
+	# Обработка PHP-файлов
+	php_fastcgi app:9000
+
+	# Если файл не найден - перенаправить на index.php
+	@missingFiles {
+		not file
+		not path /favicon.ico /robots.txt
+	}
+	rewrite @missingFiles /index.php
+
+	# Обслуживание статических файлов
+	file_server
+}

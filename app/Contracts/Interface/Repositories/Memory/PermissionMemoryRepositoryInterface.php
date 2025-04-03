@@ -3,10 +3,10 @@
 namespace App\Contracts\Interface\Repositories\Memory;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Contracts\Interface\Repositories\Storage\PermissionStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\PermissionRepositoryInterface;
 use App\Entities\Permission;
 
-interface PermissionMemoryRepositoryInterface extends PermissionStorageRepositoryInterface
+interface PermissionMemoryRepositoryInterface extends PermissionRepositoryInterface
 {
     public function all(): array;
     public function findById(UuidInterface $id): ?Permission;

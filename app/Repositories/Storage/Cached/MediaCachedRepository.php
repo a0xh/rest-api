@@ -2,15 +2,15 @@
 
 namespace App\Repositories\Storage\Cached;
 
-use App\Contracts\Abstract\MediaRepositoryAbstract;
-use Illuminate\Support\Facades\Cache;
+use App\Entities\Media;
 use App\Repositories\Storage\Transactions\MediaTransactionRepository;
+use Illuminate\Support\Facades\Cache;
+use App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface;
 use Ramsey\Uuid\UuidInterface;
 use App\Repositories\Storage\Queries\MediaQueryRepository;
-use App\Entities\Media;
 use Carbon\Carbon;
 
-final class MediaCachedRepository extends MediaRepositoryAbstract
+final class MediaCachedRepository implements MediaStorageRepositoryInterface
 {
 	private const CACHE_MEDIA_ALL_KEY = 'media';
 

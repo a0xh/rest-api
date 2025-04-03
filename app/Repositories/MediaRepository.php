@@ -3,19 +3,19 @@
 namespace App\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use App\Repositories\Storage\Cached\MediaCachedRepository;
+use App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface;
+use App\Contracts\Interface\Repositories\Memory\MediaMemoryRepositoryInterface;
 use App\Contracts\Abstract\MediaRepositoryAbstract;
-use App\Repositories\Memory\MediaMemoryRepository;
 use App\Entities\Media;
 
 final class MediaRepository extends MediaRepositoryAbstract
 {
     public function __construct(
-        private MediaCachedRepository $cachedRepository,
-        private MediaMemoryRepository $memoryRepository
+        protected MediaStorageRepositoryInterface $storageRepository,
+        protected MediaMemoryRepositoryInterface $memoryRepository
     ) {
         parent::__construct(
-            storageRepository: $cachedRepository,
+            storageRepository: $storageRepository,
             memoryRepository: $memoryRepository
         );
     }

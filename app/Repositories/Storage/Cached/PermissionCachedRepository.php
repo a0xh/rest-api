@@ -2,15 +2,15 @@
 
 namespace App\Repositories\Storage\Cached;
 
-use App\Contracts\Abstract\PermissionRepositoryAbstract;
-use Illuminate\Support\Facades\Cache;
+use App\Entities\Permission;
 use App\Repositories\Storage\Transactions\PermissionTransactionRepository;
+use Illuminate\Support\Facades\Cache;
+use App\Contracts\Interface\Repositories\Storage\PermissionStorageRepositoryInterface;
 use Ramsey\Uuid\UuidInterface;
 use App\Repositories\Storage\Queries\PermissionQueryRepository;
-use App\Entities\Permission;
 use Carbon\Carbon;
 
-final class PermissionCachedRepository extends PermissionRepositoryAbstract
+final class PermissionCachedRepository implements PermissionStorageRepositoryInterface
 {
 	private const CACHE_PERMISSION_ALL_KEY = 'permissions';
 

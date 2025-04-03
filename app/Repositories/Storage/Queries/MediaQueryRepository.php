@@ -2,13 +2,12 @@
 
 namespace App\Repositories\Storage\Queries;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
-use App\Contracts\Abstract\MediaRepositoryAbstract;
-use Ramsey\Uuid\UuidInterface;
 use App\Entities\Media;
+use App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface;
+use Doctrine\ORM\{EntityManagerInterface, ORMException};
+use Ramsey\Uuid\UuidInterface;
 
-final class MediaQueryRepository extends MediaRepositoryAbstract
+final class MediaQueryRepository implements MediaStorageRepositoryInterface
 {
     private EntityManagerInterface $entityManager;
 
@@ -55,7 +54,7 @@ final class MediaQueryRepository extends MediaRepositoryAbstract
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Save Media: {$e->getMessage()}",
+                message: "Failed to save media: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );
@@ -71,7 +70,7 @@ final class MediaQueryRepository extends MediaRepositoryAbstract
 
         catch (ORMException $e) {
             throw new \RuntimeException(
-                message: "Failed To Delete Media: {$e->getMessage()}",
+                message: "Failed to delete media: {$e->getMessage()}",
                 code: (int) $e->getCode(),
                 previous: $e
             );

@@ -2,11 +2,13 @@
 
 namespace App\Contracts\Interface\Repositories\Storage;
 
+use Ramsey\Uuid\UuidInterface;
 use App\Contracts\Interface\Repositories\RoleRepositoryInterface;
 use App\Entities\Role;
 
 interface RoleStorageRepositoryInterface extends RoleRepositoryInterface
 {
-    public function save(Role $role): void;
-    public function remove(Role $role): void;
+    public function all(): array;
+    public function findById(UuidInterface $id): ?Role;
+    public function findBySlug(string $slug): ?Role;
 }

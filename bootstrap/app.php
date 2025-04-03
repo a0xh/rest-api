@@ -3,9 +3,11 @@
 use App\Services\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Illuminate\Http\{Request, Response};
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use App\Responses\MessageResponse;
+use App\Interaction\Responses\MessageResponse;
 use Illuminate\Http\Middleware\HandleCors;
 use App\Middlewares\ApiRequestLogger;
 
@@ -18,13 +20,34 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [HandleCors::class]);
-        $middleware->api(append: [ApiRequestLogger::class]);
+        $middleware->appendToGroup(
+            group: 'api',
+            middleware: [
+                SubstituteBindings::class,
+                ApiRequestLogger::class,
+            ]
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(
             using: function (JWTException $e, Request $request) {
+                Context::add(key: 'request_id', value: Str::uuid()->toString());
+                Context::add(key: 'timestamp', value: now()->toIso8601String());
+                
                 return new MessageResponse(
                     message: $e->getMessage(),
+                    status: Response::HTTP_UNAUTHORIZED
+                );
+            }
+        );
+
+        $exceptions->render(
+            using: function (RouteNotFoundException $e, Request $request) {
+                Context::add(key: 'request_id', value: Str::uuid()->toString());
+                Context::add(key: 'timestamp', value: now()->toIso8601String());
+
+                return new MessageResponse(
+                    message: __('Unauthorized'),
                     status: Response::HTTP_UNAUTHORIZED
                 );
             }

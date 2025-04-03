@@ -2,7 +2,7 @@
 
 namespace App\Modules\Account\Requests;
 
-use App\Shared\FormRequest;
+use App\Interaction\Requests\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
 final class CreateUserRequest extends FormRequest
@@ -26,8 +26,8 @@ final class CreateUserRequest extends FormRequest
                 'bail', 'required', 'email:rfc,strict,spoof,dns', 'max:254', 'unique:users,email'
             ],
             'password' => ['bail', 'required', 'string', $pwdRules, 'confirmed'],
-            'status' => ['bail', 'required', 'boolean'],
-            'role_id' => ['bail', 'required', 'uuid', 'exists:roles,id']
+            'status' => ['bail', 'nullable', 'boolean'],
+            'role_id' => ['bail', 'nullable', 'uuid', 'exists:roles,id']
         ];
     }
 

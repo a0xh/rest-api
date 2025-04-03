@@ -3,15 +3,16 @@
 namespace App\Contracts\Abstract;
 
 use Ramsey\Uuid\UuidInterface;
+use App\Contracts\Interface\Repositories\UserRepositoryInterface;
 use App\Contracts\Interface\Repositories\Storage\UserStorageRepositoryInterface;
 use App\Contracts\Interface\Repositories\Memory\UserMemoryRepositoryInterface;
 use App\Entities\User;
 
-abstract class UserRepositoryAbstract implements UserStorageRepositoryInterface
+abstract class UserRepositoryAbstract implements UserRepositoryInterface
 {
     protected function __construct(
-        private readonly UserStorageRepositoryInterface $storageRepository,
-        private UserMemoryRepositoryInterface $memoryRepository
+        protected UserStorageRepositoryInterface $storageRepository,
+        protected UserMemoryRepositoryInterface $memoryRepository
     ) {
         if (count(value: $this->memoryRepository->all()) === 0)
         {
