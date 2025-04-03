@@ -43,6 +43,10 @@ COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 
 COPY ./docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
+# Настройка размеров буфера UDP
+RUN sysctl -w net.core.rmem_max=7500000
+RUN sysctl -w net.core.wmem_max=7500000
+
 # Pass user and group ID via ARG
 ARG USER_ID=1000
 ARG GROUP_ID=1000

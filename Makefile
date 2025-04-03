@@ -19,7 +19,7 @@ start:
 # Restart containers
 .PHONY: stop
 stop:
-	docker compose down --volumes --remove-orphans
+	docker compose down -v
 
 .PHONY: restart
 restart:
