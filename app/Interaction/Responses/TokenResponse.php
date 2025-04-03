@@ -10,8 +10,8 @@ final class TokenResponse implements Responsable
 {
     public function __construct(
         private private(set) string $message,
-        private private(set) ?string $token = null,
         private private(set) int $status,
+        private private(set) ?string $token = null,
     ) {}
 
     public function toResponse($request): JsonResponse
