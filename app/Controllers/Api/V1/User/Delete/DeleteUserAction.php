@@ -26,12 +26,10 @@ final class DeleteUserAction extends Action
 	public function __invoke(
 		string $id, DeleteUserRequest $request): MessageResponse
 	{
+		$command = DeleteUserCommand::fromRequest(request: $request);
+		
 		return new DeleteUserResponder()->respond(
-			result: $this->commandBus->send(
-				command: DeleteUserCommand::fromRequest(
-					request: $request
-				)
-			)
+			result: $this->commandBus->send(command: $command)
 		);
 	}
 }

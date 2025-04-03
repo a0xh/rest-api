@@ -24,10 +24,10 @@ final class IndexUserAction extends Action
 	#[Route(methods: ['GET'], uri: '/users')]
 	public function __invoke(): ResourceResponse
 	{
+		$query = new GetAllUsersQuery();
+
 		return new IndexUserResponder()->respond(
-			data: $this->queryBus->ask(
-				query: new GetAllUsersQuery()
-			)
+			data: $this->queryBus->ask(query: $query)
 		);
 	}
 }

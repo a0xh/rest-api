@@ -24,10 +24,10 @@ final class ShowUserAction extends Action
 	#[Route(methods: ['GET'], uri: '/users/{id}/show')]
 	public function __invoke(string $id): ResourceResponse
 	{
+		$query = new GetUserByIdQuery(userId: $id);
+		
 		return new ShowUserResponder()->respond(
-			data: $this->queryBus->ask(
-				query: new GetUserByIdQuery(userId: $id)
-			)
+			data: $this->queryBus->ask(query: $query)
 		);
 	}
 }

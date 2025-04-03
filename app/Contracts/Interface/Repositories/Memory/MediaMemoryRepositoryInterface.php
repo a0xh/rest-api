@@ -8,6 +8,8 @@ use App\Entities\Media;
 
 interface MediaMemoryRepositoryInterface extends MediaRepositoryInterface
 {
+    private array $collection { get; set; }
+
     public function all(): array;
     public function findById(UuidInterface $id): ?Media;
     public function findByEntityId(string $entityId): array;

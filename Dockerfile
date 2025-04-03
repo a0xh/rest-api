@@ -1,5 +1,5 @@
 # Используем базовый образ PHP 8.4 FPM
-FROM php:8.4-fpm
+FROM php:8.4-fpm AS builder
 
 # Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
@@ -16,28 +16,23 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     zlib1g-dev \
     procps \
-    && rm -rf /var/lib/apt/lists/*
+    supervisor
 
-# Установка и конфигурация GD
+# Установка расширений PHP
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
-RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-install -j$(nproc) gd pdo pdo_pgsql mbstring intl zip exif sockets opcache pcntl
 
-# Установка остальных PHP-расширений
-RUN docker-php-ext-install pdo pdo_pgsql mbstring intl zip exif sockets opcache pcntl
+# Установка и включение APCu и Redis
+RUN pecl install apcu redis
+RUN docker-php-ext-enable apcu redis
 
-# Установка и включение APCu
-RUN pecl install apcu && docker-php-ext-enable apcu
-
-# Установка и включение Redis
-RUN pecl install redis && docker-php-ext-enable redis
+# Удаление ненужных пакетов
+RUN rm -rf /var/lib/apt/lists/*
 
 # Установка Composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     rm composer-setup.php
-
-# Выполнение команды от имени root
-RUN if [ -e /usr/bin/php ]; then rm -f /usr/bin/php; fi && ln -s /usr/local/bin/php /usr/bin/php
 
 # Копирование файла crontab
 ADD ./docker/cron/cronjob /etc/cron.d/cronjob
@@ -57,20 +52,24 @@ ENV TZ=Europe/Moscow
 # Настройка рабочей директории
 WORKDIR /var/www/html
 
-# Копирование файлов проекта
-COPY . /var/www/html
-
-# Копирование файла php.ini
+# Копирование файла php.ini без дубликатов расширений
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+
+# Передача ID пользователя и группы через ARG
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
 # Создание нового пользователя
 RUN useradd -ms /bin/bash appuser
 
-# Переключение на нового пользователя
-USER appuser
+# Копирование файлов проекта
+COPY --chown=appuser:appuser . /var/www/html
 
 # Открываем порт
 EXPOSE 9000
 
-# Запуск Cron в foreground-режиме вместе с PHP-FPM от имени root
-CMD ["sh", "-c", "service cron start && php-fpm"]
+# Копирование конфигурации supervisord
+COPY ./docker/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Запуск supervisord для управления службами cron и php-fpm
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

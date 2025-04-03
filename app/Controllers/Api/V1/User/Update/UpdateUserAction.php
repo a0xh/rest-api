@@ -26,12 +26,10 @@ final class UpdateUserAction extends Action
 	public function __invoke(
 		string $id, UpdateUserRequest $request): MessageResponse
 	{
+		$command = UpdateUserCommand::fromRequest(request: $request);
+		
 		return new UpdateUserResponder()->respond(
-			result: $this->commandBus->send(
-				command: UpdateUserCommand::fromRequest(
-					request: $request
-				)
-			)
+			result: $this->commandBus->send(command: $command)
 		);
 	}
 }

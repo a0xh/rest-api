@@ -26,12 +26,10 @@ final class CreateUserAction extends Action
 	public function __invoke(
 		CreateUserRequest $request): MessageResponse
 	{
+		$command = CreateUserCommand::fromRequest(request: $request);
+
 		return new CreateUserResponder()->respond(
-			result: $this->commandBus->send(
-				command: CreateUserCommand::fromRequest(
-					request: $request
-				)
-			)
+			result: $this->commandBus->send(command: $command)
 		);
 	}
 }
