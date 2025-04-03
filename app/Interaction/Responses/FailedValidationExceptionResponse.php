@@ -5,9 +5,12 @@ namespace App\Interaction\Responses;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Http\{JsonResponse, Response};
+use Illuminate\Support\MessageBag;
 
 final class FailedValidationExceptionResponse implements Responsable
 {
+    public function __construct(private MessageBag $errors) {}
+
     public function toResponse($request): JsonResponse
     {
         return new JsonResponse(
