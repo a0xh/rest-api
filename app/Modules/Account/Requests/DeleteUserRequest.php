@@ -18,6 +18,9 @@ final class DeleteUserRequest extends FormRequest
         ];
     }
 
+    /**
+     * Prepare the request data for validation.
+     */
     protected function prepareForValidation(): void
     {
         $this->merge(input: ['id' => $this->route('id')]);

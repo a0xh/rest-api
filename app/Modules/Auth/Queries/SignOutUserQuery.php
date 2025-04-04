@@ -6,5 +6,8 @@ use App\Shared\Query;
 
 final class SignOutUserQuery extends Query
 {
+	/**
+     * Executes the sign-out operation.
+     */
 	public function __invoke() {}
 }

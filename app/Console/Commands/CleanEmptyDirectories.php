@@ -24,7 +24,7 @@ final class CleanEmptyDirectories extends Command
     /**
      * Execute the console command.
      *
-     * @param DirectoryCleaner $cleaner
+     * @param \App\Services\DirectoryCleaner $cleaner
      * @return void
      */
     public function handle(DirectoryCleaner $cleaner): void

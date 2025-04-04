@@ -12,51 +12,87 @@ use Carbon\Carbon;
 
 final class RoleCachedRepository implements RoleStorageRepositoryInterface
 {
-	private const CACHE_ROLE_ALL_KEY = 'roles';
+	/**
+     * Cache key for storing all roles.
+     */
+    private const CACHE_ROLE_ALL_KEY = 'roles';
 
-	public function __construct(
-		private RoleQueryRepository $roleQuery,
+    /**
+     * Constructs a new RoleCachedRepository instance.
+     *
+     * @param \App\Repositories\Storage\Queries\RoleQueryRepository $roleQuery
+     * @param \App\Repositories\Storage\Transactions\RoleTransactionRepository $roleTransaction
+     */
+    public function __construct(
+        private RoleQueryRepository $roleQuery,
         private RoleTransactionRepository $roleTransaction
-	) {}
+    ) {}
 
-	public function all(): array
+    /**
+     * Retrieves all roles from the cache or database if not cached, using a flexible caching strategy.
+     *
+     * @return array
+     */
+    public function all(): array
     {
         return Cache::flexible(
-        	key: self::CACHE_ROLE_ALL_KEY,
-        	ttl: [
+            key: self::CACHE_ROLE_ALL_KEY,
+            ttl: [
                 Carbon::now()->addMinutes(value: 5),
                 Carbon::now()->addMinutes(value: 15)
             ],
-        	callback: fn () => $this->roleQuery->all(),
-        	lock: ['seconds' => 10]
+            callback: fn () => $this->roleQuery->all(),
+            lock: ['seconds' => 10]
         );
     }
 
+    /**
+     * Finds a role by ID directly from the database.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\Role|null
+     */
     public function findById(UuidInterface $id): ?Role
     {
         return $this->roleQuery->findById(id: $id);
     }
 
+    /**
+     * Finds a role by slug directly from the database.
+     *
+     * @param string $slug
+     * @return \App\Entities\Role|null
+     */
     public function findBySlug(string $slug): ?Role
     {
         return $this->roleQuery->findBySlug(slug: $slug);
     }
 
+    /**
+     * Saves a role using the transactional repository and invalidates the cache if necessary.
+     *
+     * @param \App\Entities\Role $role
+     */
     public function save(Role $role): void
     {
         $this->roleTransaction->save(role: $role);
 
-    	if (Cache::has(key: self::CACHE_ROLE_ALL_KEY)) {
-    		Cache::forget(key: self::CACHE_ROLE_ALL_KEY);
-    	}
+        if (Cache::has(key: self::CACHE_ROLE_ALL_KEY)) {
+            Cache::forget(key: self::CACHE_ROLE_ALL_KEY);
+        }
     }
 
+    /**
+     * Removes a role using the transactional repository and invalidates the cache if necessary.
+     *
+     * @param \App\Entities\Role $role
+     */
     public function remove(Role $role): void
     {
-    	$this->roleTransaction->remove(role: $role);
+        $this->roleTransaction->remove(role: $role);
 
-    	if (Cache::has(key: self::CACHE_ROLE_ALL_KEY)) {
-    		Cache::forget(key: self::CACHE_ROLE_ALL_KEY);
-    	}
+        if (Cache::has(key: self::CACHE_ROLE_ALL_KEY)) {
+            Cache::forget(key: self::CACHE_ROLE_ALL_KEY);
+        }
     }
 }

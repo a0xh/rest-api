@@ -8,11 +8,23 @@ use Illuminate\Http\{JsonResponse, Response};
 
 final class ResourceResponse implements Responsable
 {
+    /**
+     * Constructs a new ResourceResponse instance.
+     *
+     * @param mixed $data
+     * @param int $status
+     */
     public function __construct(
         private mixed $data,
         private int $status
     ) {}
-    
+
+    /**
+     * Converts the response to a JSON response.
+     *
+     * @param mixed $request
+     * @return JsonResponse
+     */
     public function toResponse($request): JsonResponse
     {
         $requestId = Context::get(key: 'request_id');

@@ -8,7 +8,33 @@ use App\Entities\Permission;
 
 interface PermissionMemoryRepositoryInterface extends PermissionRepositoryInterface
 {
+    /**
+     * Collection of permission objects.
+     *
+     * @var \App\Entities\Permission[]
+     */
+    private array $collection { get; set; }
+    
+    /**
+     * Retrieves all permissions.
+     *
+     * @return \App\Entities\Permission[]
+     */
     public function all(): array;
+
+    /**
+     * Retrieves a permission by their ID.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\Permission|null
+     */
     public function findById(UuidInterface $id): ?Permission;
+
+    /**
+     * Retrieves a permission by their slug.
+     *
+     * @param string $slug
+     * @return \App\Entities\Permission|null
+     */
     public function findBySlug(string $slug): ?Permission;
 }

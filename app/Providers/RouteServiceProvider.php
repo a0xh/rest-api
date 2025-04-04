@@ -7,6 +7,9 @@ use Spatie\RouteAttributes\RouteRegistrar;
 
 final class RouteServiceProvider extends ServiceProvider
 {
+    /**
+     * Bootstrap any application services.
+     */
     public function boot()
     {
         $directories = config(

@@ -10,6 +10,12 @@ use App\Entities\Permission;
 
 final class PermissionRepository extends PermissionRepositoryAbstract
 {
+    /**
+     * Constructs a new PermissionRepository instance.
+     *
+     * @param \App\Contracts\Interface\Repositories\Storage\PermissionStorageRepositoryInterface $storageRepository
+     * @param \App\Contracts\Interface\Repositories\Memory\PermissionMemoryRepositoryInterface $memoryRepository
+     */
     public function __construct(
         protected PermissionStorageRepositoryInterface $storageRepository,
         protected PermissionMemoryRepositoryInterface $memoryRepository
@@ -20,6 +26,11 @@ final class PermissionRepository extends PermissionRepositoryAbstract
         );
     }
 
+    /**
+     * Retrieves all permissions, first checking the memory cache and then the storage if necessary.
+     *
+     * @return array
+     */
     public function all(): array
     {
         $memory = $this->memoryRepository->all();
@@ -28,11 +39,17 @@ final class PermissionRepository extends PermissionRepositoryAbstract
             return $memory;
         }
 
-        $cached = $this->cachedRepository->all();
+        $cached = $this->storageRepository->all();
 
         return $cached;
     }
 
+    /**
+     * Finds a permission by ID, checking memory cache first and then storage if necessary.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\Permission|null
+     */
     public function findById(UuidInterface $id): ?Permission
     {
         $memory = $this->memoryRepository->findById(id: $id);
@@ -41,11 +58,17 @@ final class PermissionRepository extends PermissionRepositoryAbstract
             return $memory;
         }
 
-        $cached = $this->cachedRepository->findById(id: $id);
+        $cached = $this->storageRepository->findById(id: $id);
 
         return $cached;
     }
 
+    /**
+     * Finds a permission by slug, checking memory cache first and then storage if necessary.
+     *
+     * @param string $slug
+     * @return \App\Entities\Permission|null
+     */
     public function findBySlug(string $slug): ?Permission
     {
         $memory = $this->memoryRepository->findBySlug(slug: $slug);
@@ -53,21 +76,31 @@ final class PermissionRepository extends PermissionRepositoryAbstract
         if ($memory !== null) {
             return $memory;
         }
-        
-        $cached = $this->cachedRepository->findBySlug(slug: $slug);
+
+        $cached = $this->storageRepository->findBySlug(slug: $slug);
         
         return $cached;
     }
 
+    /**
+     * Saves a permission to both memory and storage repositories.
+     *
+     * @param \App\Entities\Permission $permission
+     */
     public function save(Permission $permission): void
     {
         $this->memoryRepository->save(permission: $permission);
-        $this->cachedRepository->save(permission: $permission);
+        $this->storageRepository->save(permission: $permission);
     }
 
+    /**
+     * Removes a permission from both memory and storage repositories.
+     *
+     * @param \App\Entities\Permission $permission
+     */
     public function remove(Permission $permission): void
     {
         $this->memoryRepository->remove(permission: $permission);
-        $this->cachedRepository->remove(permission: $permission);
+        $this->storageRepository->remove(permission: $permission);
     }
 }

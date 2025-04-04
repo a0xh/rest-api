@@ -24,6 +24,7 @@ stop:
 .PHONY: restart
 restart:
 	make stop
+	make build
 	make start
 
 # Copy .env.example to .env

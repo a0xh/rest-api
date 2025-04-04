@@ -8,12 +8,25 @@ use Illuminate\Http\{JsonResponse, Response};
 
 final class TokenResponse implements Responsable
 {
+    /**
+     * Constructs a new TokenResponse instance.
+     *
+     * @param string $message
+     * @param int $status
+     * @param string|null $token
+     */
     public function __construct(
         private private(set) string $message,
         private private(set) int $status,
         private private(set) ?string $token = null,
     ) {}
 
+    /**
+     * Converts the response to a JSON response.
+     *
+     * @param mixed $request
+     * @return JsonResponse
+     */
     public function toResponse($request): JsonResponse
     {
         $requestId = Context::get(key: 'request_id');

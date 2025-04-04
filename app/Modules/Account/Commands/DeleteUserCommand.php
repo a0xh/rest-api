@@ -9,6 +9,9 @@ use App\DtoCasts\UuidCast;
 
 final class DeleteUserCommand extends Command
 {
+    /**
+     * ID of the user to be deleted.
+     */
     #[Cast(type: UuidCast::class, param: null)]
     public UuidInterface $id;
 }

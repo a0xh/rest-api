@@ -11,11 +11,21 @@ final class MediaQueryRepository implements MediaStorageRepositoryInterface
 {
     private EntityManagerInterface $entityManager;
 
+    /**
+     * Constructs a new MediaQueryRepository instance.
+     *
+     * @param Doctrine\ORM\EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Retrieves all media from the database, ordered by creation date in descending order.
+     *
+     * @return array
+     */
     public function all(): array
     {
         return $this->entityManager->getRepository(
@@ -26,6 +36,12 @@ final class MediaQueryRepository implements MediaStorageRepositoryInterface
         );
     }
 
+    /**
+     * Finds a media by ID in the database.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\Media|null
+     */
     public function findById(UuidInterface $id): ?Media
     {
         return $this->entityManager->getRepository(
@@ -35,6 +51,12 @@ final class MediaQueryRepository implements MediaStorageRepositoryInterface
         );
     }
 
+    /**
+     * Finds media by entity ID in the database, ordered by creation date in descending order.
+     *
+     * @param string $entityId
+     * @return array
+     */
     public function findByEntityId(string $entityId): array
     {
         return $this->entityManager->getRepository(
@@ -45,6 +67,11 @@ final class MediaQueryRepository implements MediaStorageRepositoryInterface
         );
     }
 
+    /**
+     * Saves a media to the database.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function save(Media $media): void
     {
         try {
@@ -53,6 +80,16 @@ final class MediaQueryRepository implements MediaStorageRepositoryInterface
         }
 
         catch (ORMException $e) {
+            Log::error(
+                message: 'Media creation failed: ' . $e->getMessage(),
+                context: [
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ]
+            );
+
             throw new \RuntimeException(
                 message: "Failed to save media: {$e->getMessage()}",
                 code: (int) $e->getCode(),
@@ -61,6 +98,11 @@ final class MediaQueryRepository implements MediaStorageRepositoryInterface
         }
     }
 
+    /**
+     * Removes a media from the database.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function remove(Media $media): void
     {
         try {
@@ -69,6 +111,16 @@ final class MediaQueryRepository implements MediaStorageRepositoryInterface
         }
 
         catch (ORMException $e) {
+            Log::error(
+                message: 'Media deletion failed: ' . $e->getMessage(),
+                context: [
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ]
+            );
+
             throw new \RuntimeException(
                 message: "Failed to delete media: {$e->getMessage()}",
                 code: (int) $e->getCode(),

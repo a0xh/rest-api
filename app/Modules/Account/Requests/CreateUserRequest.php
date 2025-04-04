@@ -31,6 +31,9 @@ final class CreateUserRequest extends FormRequest
         ];
     }
 
+    /**
+     * Prepare the request data for validation.
+     */
     protected function prepareForValidation(): void
     {
         if ($this->has(key: 'status')) {

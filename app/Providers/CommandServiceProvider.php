@@ -17,12 +17,22 @@ use App\Contracts\Interface\Buses\CommandBusInterface;
 
 final class CommandServiceProvider extends ServiceProvider
 {
+    /**
+     * Mapping of account-related commands to their handlers.
+     *
+     * @var array
+     */
     private array $account = [
         CreateUserCommand::class => CreateUserHandler::class,
         UpdateUserCommand::class => UpdateUserHandler::class,
         DeleteUserCommand::class => DeleteUserHandler::class,
     ];
 
+    /**
+     * Mapping of authentication-related commands to their handlers.
+     *
+     * @var array
+     */
     private array $auth = [
         LoginCommand::class => LoginHandler::class,
         RegisterCommand::class => RegisterHandler::class,

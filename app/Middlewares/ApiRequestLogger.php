@@ -9,6 +9,14 @@ use Illuminate\Support\Str;
 
 final class ApiRequestLogger
 {
+    /**
+     * Handles the request by logging relevant data and passing it to the next middleware.
+     *
+     * @param Request $request
+     * @param \Closure $next
+     * 
+     * @return Response
+     */
     public function handle(Request $request, \Closure $next): Response
     {
         Context::add(key: 'request_id', value: Str::uuid()->toString());

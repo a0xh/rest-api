@@ -9,13 +9,28 @@ use Ramsey\Uuid\UuidInterface;
 
 final class UserQueryRepository implements UserStorageRepositoryInterface
 {
+    /**
+     * The Doctrine entity manager instance.
+     *
+     * @var EntityManagerInterface
+     */
     private EntityManagerInterface $entityManager;
 
+    /**
+     * Constructs a new UserQueryRepository instance.
+     *
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Retrieves all users from the database, ordered by creation date in descending order.
+     *
+     * @return array
+     */
     public function all(): array
     {
         return $this->entityManager->getRepository(
@@ -26,6 +41,12 @@ final class UserQueryRepository implements UserStorageRepositoryInterface
         );
     }
 
+    /**
+     * Finds a user by ID in the database.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\User|null
+     */
     public function findById(UuidInterface $id): ?User
     {
         return $this->entityManager->getRepository(
@@ -35,6 +56,12 @@ final class UserQueryRepository implements UserStorageRepositoryInterface
         );
     }
 
+    /**
+     * Finds a user by email in the database.
+     *
+     * @param string $email
+     * @return \App\Entities\User|null
+     */
     public function findByEmail(string $email): ?User
     {
         return $this->entityManager->getRepository(
@@ -44,6 +71,11 @@ final class UserQueryRepository implements UserStorageRepositoryInterface
         );
     }
 
+    /**
+     * Saves a user to the database.
+     *
+     * @param \App\Entities\User $user
+     */
     public function save(User $user): void
     {
         try {
@@ -70,6 +102,11 @@ final class UserQueryRepository implements UserStorageRepositoryInterface
         }
     }
 
+    /**
+     * Removes a user from the database.
+     *
+     * @param \App\Entities\User $user
+     */
     public function remove(User $user): void
     {
         try {

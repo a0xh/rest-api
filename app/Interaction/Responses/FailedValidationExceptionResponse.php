@@ -9,8 +9,19 @@ use Illuminate\Support\MessageBag;
 
 final class FailedValidationExceptionResponse implements Responsable
 {
+    /**
+     * Constructs a new FailedValidationExceptionResponse instance.
+     *
+     * @param MessageBag $errors
+     */
     public function __construct(private MessageBag $errors) {}
 
+    /**
+     * Converts the response to a JSON response.
+     *
+     * @param mixed $request
+     * @return JsonResponse
+     */
     public function toResponse($request): JsonResponse
     {
         return new JsonResponse(

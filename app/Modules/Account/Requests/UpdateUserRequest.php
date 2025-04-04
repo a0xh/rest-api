@@ -32,6 +32,9 @@ final class UpdateUserRequest extends FormRequest
         ];
     }
 
+    /**
+     * Prepare the request data for validation.
+     */
     protected function prepareForValidation(): void
     {
         $this->merge(input: [

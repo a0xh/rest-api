@@ -8,7 +8,26 @@ use App\Entities\Role;
 
 interface RoleStorageRepositoryInterface extends RoleRepositoryInterface
 {
+    /**
+     * Retrieves all roles.
+     *
+     * @return \App\Entities\Role[]
+     */
     public function all(): array;
+
+    /**
+     * Retrieves a role by their ID.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\Role|null
+     */
     public function findById(UuidInterface $id): ?Role;
+
+    /**
+     * Retrieves a role by their slug.
+     *
+     * @param string $slug
+     * @return \App\Entities\Role|null
+     */
     public function findBySlug(string $slug): ?Role;
 }

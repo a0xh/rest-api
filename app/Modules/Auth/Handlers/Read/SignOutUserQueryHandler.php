@@ -8,10 +8,21 @@ use App\Services\Authenticate;
 
 final class SignOutUserQueryHandler extends Handler
 {
+    /**
+     * Constructs a new SignOutUserQueryHandler instance.
+     *
+     * @param Authenticate $authenticate
+     */
     public function __construct(
         private Authenticate $authenticate
     ) {}
 
+    /**
+     * Handles the sign-out query by logging out the current user.
+     *
+     * @param SignOutUserQuery $query
+     * @return bool
+     */
     public function handle(SignOutUserQuery $query): bool
     {
         try {

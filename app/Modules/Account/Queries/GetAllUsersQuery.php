@@ -6,5 +6,10 @@ use App\Shared\Query;
 
 final class GetAllUsersQuery extends Query
 {
+	/**
+     * Executes the query to retrieve all users.
+     *
+     * @return void
+     */
 	public function __invoke() {}
 }

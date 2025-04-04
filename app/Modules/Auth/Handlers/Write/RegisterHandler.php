@@ -10,11 +10,23 @@ use App\Entities\User;
 
 final class RegisterHandler extends Handler
 {
+    /**
+     * Constructs a new RegisterHandler instance.
+     *
+     * @param UserRepositoryInterface $userRepository
+     * @param UserRepositoryInterface $roleRepository
+     */
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private RoleRepositoryInterface $roleRepository,
     ) {}
 
+    /**
+     * Handles the register command by creating a new user.
+     *
+     * @param RegisterCommand $command
+     * @return bool
+     */
     public function handle(RegisterCommand $command): bool
     {
         $user = new User(
@@ -25,6 +37,7 @@ final class RegisterHandler extends Handler
         );
 
         $role = $this->roleRepository->findBySlug(slug: 'user');
+
         $user->setRole(role: $role);
 
         $this->userRepository->save(user: $user);

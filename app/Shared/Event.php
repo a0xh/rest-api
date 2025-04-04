@@ -8,5 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 abstract class Event
 {
+    /**
+     * Combines traits for event dispatching, WebSocket interaction, and model serialization.
+     */
     use Dispatchable, InteractsWithSockets, SerializesModels;
 }

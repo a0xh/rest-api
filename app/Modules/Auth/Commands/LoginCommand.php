@@ -8,9 +8,19 @@ use WendellAdriel\ValidatedDTO\Attributes\Cast;
 
 final class LoginCommand extends Command
 {
+    /**
+     * The email address of the user.
+     *
+     * @var string
+     */
     #[Cast(type: StringCast::class, param: null)]
     public string $email;
 
+    /**
+     * The password for the user.
+     *
+     * @var string
+     */
     #[Cast(type: StringCast::class, param: null)]
     public string $password;
 }

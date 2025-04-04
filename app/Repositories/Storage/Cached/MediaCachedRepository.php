@@ -12,51 +12,87 @@ use Carbon\Carbon;
 
 final class MediaCachedRepository implements MediaStorageRepositoryInterface
 {
-	private const CACHE_MEDIA_ALL_KEY = 'media';
+	/**
+     * Cache key for storing all media.
+     */
+    private const CACHE_MEDIA_ALL_KEY = 'media';
 
-	public function __construct(
-		private MediaQueryRepository $mediaQuery,
+    /**
+     * Constructs a new MediaCachedRepository instance.
+     *
+     * @param \App\Repositories\Storage\Queries\MediaQueryRepository $mediaQuery
+     * @param \App\Repositories\Storage\Transactions\MediaTransactionRepository $mediaTransaction
+     */
+    public function __construct(
+        private MediaQueryRepository $mediaQuery,
         private MediaTransactionRepository $mediaTransaction
-	) {}
+    ) {}
 
-	public function all(): array
+    /**
+     * Retrieves all media from the cache or database if not cached, using a flexible caching strategy.
+     *
+     * @return array
+     */
+    public function all(): array
     {
         return Cache::flexible(
-        	key: self::CACHE_MEDIA_ALL_KEY,
-        	ttl: [
+            key: self::CACHE_MEDIA_ALL_KEY,
+            ttl: [
                 Carbon::now()->addMinutes(value: 5),
                 Carbon::now()->addMinutes(value: 15)
             ],
-        	callback: fn () => $this->mediaQuery->all(),
-        	lock: ['seconds' => 10]
+            callback: fn () => $this->mediaQuery->all(),
+            lock: ['seconds' => 10]
         );
     }
 
+    /**
+     * Finds a media by ID directly from the database.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\Media|null
+     */
     public function findById(UuidInterface $id): ?Media
     {
         return $this->mediaQuery->findById(id: $id);
     }
 
+    /**
+     * Finds media by entity ID directly from the database.
+     *
+     * @param string $entityId
+     * @return array
+     */
     public function findByEntityId(string $entityId): array
     {
         return $this->mediaQuery->findByEntityId(entityId: $entityId);
     }
 
+    /**
+     * Saves a media using the transactional repository and invalidates the cache if necessary.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function save(Media $media): void
     {
         $this->mediaTransaction->save(media: $media);
 
-    	if (Cache::has(key: self::CACHE_MEDIA_ALL_KEY)) {
-    		Cache::forget(key: self::CACHE_MEDIA_ALL_KEY);
-    	}
+        if (Cache::has(key: self::CACHE_MEDIA_ALL_KEY)) {
+            Cache::forget(key: self::CACHE_MEDIA_ALL_KEY);
+        }
     }
 
+    /**
+     * Removes a media using the transactional repository and invalidates the cache if necessary.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function remove(Media $media): void
     {
-    	$this->mediaTransaction->remove(media: $media);
+        $this->mediaTransaction->remove(media: $media);
 
-    	if (Cache::has(key: self::CACHE_MEDIA_ALL_KEY)) {
-    		Cache::forget(key: self::CACHE_MEDIA_ALL_KEY);
-    	}
+        if (Cache::has(key: self::CACHE_MEDIA_ALL_KEY)) {
+            Cache::forget(key: self::CACHE_MEDIA_ALL_KEY);
+        }
     }
 }

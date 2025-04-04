@@ -10,64 +10,84 @@ use App\Entities\Permission;
 
 final class PermissionTransactionRepository implements PermissionRepositoryInterface
 {
-	private PermissionQueryRepository $permissionQuery;
+	/**
+     * The underlying permission query repository for database operations.
+     *
+     * @var \App\Repositories\Storage\Queries\PermissionQueryRepository
+     */
+    private PermissionQueryRepository $permissionQuery;
 
-	public function __construct(PermissionQueryRepository $permissionQuery)
-	{
-		$this->permissionQuery = $permissionQuery;
-	}
+    /**
+     * Constructs a new PermissionTransactionRepository instance.
+     *
+     * @param PermissionQueryRepository $permissionQuery
+     */
+    public function __construct(PermissionQueryRepository $permissionQuery)
+    {
+        $this->permissionQuery = $permissionQuery;
+    }
 
-	public function save(Permission $permission): void
-	{
-		try {
-	        DB::transaction(
-	            callback: fn () => $this->permissionQuery->save(permission: $permission),
-	            attempts: 3
-	        );
-	    }
+    /**
+     * Saves a permission within a database transaction to ensure atomicity.
+     *
+     * @param \App\Entities\Permission $permission
+     */
+    public function save(Permission $permission): void
+    {
+        try {
+            DB::transaction(
+                callback: fn () => $this->permissionQuery->save(permission: $permission),
+                attempts: 3
+            );
+        }
 
-	    catch (QueryException $e) {
-	        Log::error(
-	            message: 'Database Error: ' . $e->getMessage(),
-	            context: [
-	                'code' => $e->getCode(),
-	                'bindings' => $e->getBindings(),
-	                'sql' => $e->getSql()
-	            ]
-	        );
+        catch (QueryException $e) {
+            Log::error(
+                message: 'Database Error: ' . $e->getMessage(),
+                context: [
+                    'code' => $e->getCode(),
+                    'bindings' => $e->getBindings(),
+                    'sql' => $e->getSql()
+                ]
+            );
 
-	        throw new \RuntimeException(
-	            message: 'Error Saving Permission: ' . $e->getMessage(),
-	            code: (int) $e->getCode(),
-	            previous: $e
-	        );
-	    }
-	}
+            throw new \RuntimeException(
+                message: 'Error Saving Permission: ' . $e->getMessage(),
+                code: (int) $e->getCode(),
+                previous: $e
+            );
+        }
+    }
 
-	public function remove(Permission $permission): void
-	{
-		try {
-	        DB::transaction(
-	            callback: fn () => $this->permissionQuery->remove(permission: $permission),
-	            attempts: 3
-	        );
-	    }
+    /**
+     * Removes a permission within a database transaction to ensure atomicity.
+     *
+     * @param \App\Entities\Permission $permission
+     */
+    public function remove(Permission $permission): void
+    {
+        try {
+            DB::transaction(
+                callback: fn () => $this->permissionQuery->remove(permission: $permission),
+                attempts: 3
+            );
+        }
 
-	    catch (QueryException $e) {
-	        Log::error(
-	            message: 'Database Error: ' . $e->getMessage(),
-	            context: [
-	                'code' => $e->getCode(),
-	                'bindings' => $e->getBindings(),
-	                'sql' => $e->getSql()
-	            ]
-	        );
+        catch (QueryException $e) {
+            Log::error(
+                message: 'Database Error: ' . $e->getMessage(),
+                context: [
+                    'code' => $e->getCode(),
+                    'bindings' => $e->getBindings(),
+                    'sql' => $e->getSql()
+                ]
+            );
 
-	        throw new \RuntimeException(
-	            message: 'Error Deleting Permission: ' . $e->getMessage(),
-	            code: (int) $e->getCode(),
-	            previous: $e
-	        );
-	    }
-	}
+            throw new \RuntimeException(
+                message: 'Error Deleting Permission: ' . $e->getMessage(),
+                code: (int) $e->getCode(),
+                previous: $e
+            );
+        }
+    }
 }

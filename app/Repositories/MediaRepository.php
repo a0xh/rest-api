@@ -10,6 +10,12 @@ use App\Entities\Media;
 
 final class MediaRepository extends MediaRepositoryAbstract
 {
+    /**
+     * Constructs a new MediaRepository instance.
+     *
+     * @param \App\Contracts\Interface\Repositories\Storage\MediaStorageRepositoryInterface $storageRepository
+     * @param \App\Contracts\Interface\Repositories\Memory\MediaMemoryRepositoryInterface $memoryRepository
+     */
     public function __construct(
         protected MediaStorageRepositoryInterface $storageRepository,
         protected MediaMemoryRepositoryInterface $memoryRepository
@@ -20,6 +26,11 @@ final class MediaRepository extends MediaRepositoryAbstract
         );
     }
 
+    /**
+     * Retrieves all media, first checking the memory cache and then the storage if necessary.
+     *
+     * @return array
+     */
     public function all(): array
     {
         $memory = $this->memoryRepository->all();
@@ -33,6 +44,12 @@ final class MediaRepository extends MediaRepositoryAbstract
         return $cached;
     }
 
+    /**
+     * Finds a media by ID, checking memory cache first and then storage if necessary.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\Media|null
+     */
     public function findById(UuidInterface $id): ?Media
     {
         $memory = $this->memoryRepository->findById(id: $id);
@@ -46,6 +63,12 @@ final class MediaRepository extends MediaRepositoryAbstract
         return $cached;
     }
 
+    /**
+     * Finds media by entity ID, checking memory cache first and then storage if necessary.
+     *
+     * @param string $entityId
+     * @return array
+     */
     public function findByEntityId(string $entityId): array
     {
         $memory = $this->memoryRepository->findByEntityId(
@@ -63,12 +86,22 @@ final class MediaRepository extends MediaRepositoryAbstract
         return $cached;
     }
 
+    /**
+     * Saves a media to both memory and storage repositories.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function save(Media $media): void
     {
         $this->memoryRepository->save(media: $media);
         $this->storageRepository->save(media: $media);
     }
 
+    /**
+     * Removes a media from both memory and storage repositories.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function remove(Media $media): void
     {
         $this->memoryRepository->remove(media: $media);

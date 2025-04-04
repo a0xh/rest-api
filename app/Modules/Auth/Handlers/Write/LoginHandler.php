@@ -54,8 +54,8 @@ final class LoginHandler extends Handler
             credentials: $command->toArray()
         );
 
-        $rememberToken = bin2hex(random_bytes(30));
-        
+        $rememberToken = bin2hex(string: random_bytes(30));
+
         $this->authenticate->updateRememberToken(
             user: $user,
             token: $rememberToken

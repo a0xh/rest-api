@@ -6,6 +6,17 @@ use App\Entities\Media;
 
 interface MediaRepositoryInterface
 {
+    /**
+     * Saves media to the repository.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function save(Media $media): void;
+
+    /**
+     * Removes media from the repository.
+     *
+     * @param \App\Entities\Media $media
+     */
     public function remove(Media $media): void;
 }

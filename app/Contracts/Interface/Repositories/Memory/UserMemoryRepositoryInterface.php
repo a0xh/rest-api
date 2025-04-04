@@ -9,7 +9,33 @@ use App\Entities\User;
 
 interface UserMemoryRepositoryInterface extends UserRepositoryInterface
 {
+    /**
+     * Collection of user objects.
+     *
+     * @var \App\Entities\User[]
+     */
+    private array $collection { get; set; }
+    
+    /**
+     * Retrieves all users.
+     *
+     * @return \App\Entities\User[]
+     */
     public function all(): array;
+
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @return \App\Entities\User|null
+     */
     public function findById(UuidInterface $id): ?User;
+
+    /**
+     * Retrieves a user by their email.
+     *
+     * @param string $email
+     * @return \App\Entities\User|null
+     */
     public function findByEmail(string $email): ?User;
 }

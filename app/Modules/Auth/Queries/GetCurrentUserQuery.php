@@ -6,5 +6,8 @@ use App\Shared\Query;
 
 final class GetCurrentUserQuery extends Query
 {
+	/**
+     * Retrieves the current authenticated user.
+     */
 	public function __invoke() {}
 }

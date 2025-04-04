@@ -14,33 +14,65 @@ use App\DtoCasts\UuidCast;
 
 final class CreateUserCommand extends Command
 {
+    /**
+     * User avatar file.
+     */
     #[Cast(type: MediaCast::class, param: null)]
     public UploadedFile $avatar;
 
+    /**
+     * User's first name.
+     */
     #[Cast(type: StringCast::class, param: null)]
     public string $firstName;
 
+    /**
+     * User's last name.
+     */
     #[Cast(type: StringCast::class, param: null)]
     public string $lastName;
 
+    /**
+     * User's patronymic (middle name).
+     */
     #[Cast(type: StringCast::class, param: null)]
     public string $patronymic;
 
+    /**
+     * User's phone number.
+     */
     #[Cast(type: StringCast::class, param: null)]
     public string $phone;
 
+    /**
+     * User's email address.
+     */
     #[Cast(type: StringCast::class, param: null)]
     public string $email;
 
+    /**
+     * User's password (will be hashed).
+     */
     #[Cast(type: PasswordHashCast::class, param: null)]
     public string $password;
 
+    /**
+     * User's status (active/inactive).
+     */
     #[Cast(type: BooleanCast::class, param: null)]
     public bool $status;
 
+    /**
+     * ID of the user's role.
+     */
     #[Cast(type: UuidCast::class, param: null)]
     public UuidInterface $roleId;
 
+    /**
+     * Maps command properties to their corresponding data keys.
+     *
+     * @return array
+     */
     protected function mapData(): array
     {
         return [
