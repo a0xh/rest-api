@@ -8,13 +8,6 @@ use Illuminate\Bus\Dispatcher;
 interface QueryBusInterface
 {
     /**
-     * The underlying dispatcher for handling query execution.
-     *
-     * @var \Illuminate\Bus\Dispatcher
-     */
-    private Dispatcher $queryBus { get; set; }
-    
-    /**
      * Executes a query and returns the result.
      *
      * @param \App\Shared\Query $query

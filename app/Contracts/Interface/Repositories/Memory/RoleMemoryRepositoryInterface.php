@@ -9,13 +9,6 @@ use App\Entities\Role;
 interface RoleMemoryRepositoryInterface extends RoleRepositoryInterface
 {
     /**
-     * Collection of role objects.
-     *
-     * @var \App\Entities\Role[]
-     */
-    private array $collection { get; set; }
-    
-    /**
      * Retrieves all roles.
      *
      * @return \App\Entities\Role[]

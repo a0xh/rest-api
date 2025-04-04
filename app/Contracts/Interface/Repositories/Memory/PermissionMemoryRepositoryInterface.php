@@ -9,13 +9,6 @@ use App\Entities\Permission;
 interface PermissionMemoryRepositoryInterface extends PermissionRepositoryInterface
 {
     /**
-     * Collection of permission objects.
-     *
-     * @var \App\Entities\Permission[]
-     */
-    private array $collection { get; set; }
-    
-    /**
      * Retrieves all permissions.
      *
      * @return \App\Entities\Permission[]

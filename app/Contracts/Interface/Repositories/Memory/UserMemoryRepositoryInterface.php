@@ -10,13 +10,6 @@ use App\Entities\User;
 interface UserMemoryRepositoryInterface extends UserRepositoryInterface
 {
     /**
-     * Collection of user objects.
-     *
-     * @var \App\Entities\User[]
-     */
-    private array $collection { get; set; }
-    
-    /**
      * Retrieves all users.
      *
      * @return \App\Entities\User[]

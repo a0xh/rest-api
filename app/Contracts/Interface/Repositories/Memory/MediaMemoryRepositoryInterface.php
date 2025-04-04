@@ -9,13 +9,6 @@ use App\Entities\Media;
 interface MediaMemoryRepositoryInterface extends MediaRepositoryInterface
 {
     /**
-     * Collection of media objects.
-     *
-     * @var \App\Entities\Media[]
-     */
-    private array $collection { get; set; }
-
-    /**
      * Retrieves all media.
      *
      * @return \App\Entities\Media[]

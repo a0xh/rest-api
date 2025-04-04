@@ -8,13 +8,6 @@ use Illuminate\Bus\Dispatcher;
 interface EventBusInterface
 {
     /**
-     * The underlying dispatcher for handling event execution.
-     *
-     * @var \Illuminate\Bus\Dispatcher
-     */
-    private Dispatcher $eventBus { get; set; }
-    
-    /**
      * Dispatches an event and returns the result.
      *
      * @param \App\Shared\Event $event

@@ -8,13 +8,6 @@ use Illuminate\Bus\Dispatcher;
 interface CommandBusInterface
 {
     /**
-     * The underlying dispatcher for handling command execution.
-     *
-     * @var \Illuminate\Bus\Dispatcher
-     */
-    private Dispatcher $commandBus { get; }
-
-    /**
      * Dispatches a command and returns the result.
      *
      * @param \App\Shared\Command $command
