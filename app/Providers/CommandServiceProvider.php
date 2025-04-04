@@ -11,6 +11,8 @@ use App\Modules\Account\Commands\DeleteUserCommand;
 use App\Modules\Account\Handlers\Write\DeleteUserHandler;
 use App\Modules\Auth\Commands\LoginCommand;
 use App\Modules\Auth\Handlers\Write\LoginHandler;
+use App\Modules\Auth\Commands\RegisterCommand;
+use App\Modules\Auth\Handlers\Write\RegisterHandler;
 use App\Contracts\Interface\Buses\CommandBusInterface;
 
 final class CommandServiceProvider extends ServiceProvider
@@ -23,6 +25,7 @@ final class CommandServiceProvider extends ServiceProvider
 
     private array $auth = [
         LoginCommand::class => LoginHandler::class,
+        RegisterCommand::class => RegisterHandler::class,
     ];
 
     /**

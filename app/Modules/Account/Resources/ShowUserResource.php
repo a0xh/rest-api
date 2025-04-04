@@ -18,7 +18,7 @@ final class ShowUserResource extends JsonResource
     {
         return [
             'id' => $this->getId(),
-            'avatar' => $this->getMedia()->isEmpty() ? null : array_map(
+            'avatars' => $this->getMedia()->isEmpty() ? null : array_map(
                 callback: function (Media $media): array {
                     return [
                         'id' => $media->getId(),

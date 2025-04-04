@@ -33,11 +33,7 @@ https://localhost {
 	}
 
 	# Processing PHP files with connection pooling for better performance
-	reverse_proxy app:9000 {
-		transport fastcgi {
-			split .php
-		}
-	}
+	php_fastcgi app:9000
 
 	# Redirect to index.php if the file is not found
 	@missingFiles {

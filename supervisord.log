@@ -1,0 +1,30 @@
+2025-04-04 00:18:18,890 WARN received SIGQUIT indicating exit request
+2025-04-04 00:18:18,891 INFO waiting for php-fpm to die
+2025-04-04 00:18:18,900 INFO stopped: php-fpm (exit status 0)
+2025-04-04 00:18:27,674 INFO supervisord started with pid 1
+2025-04-04 00:18:28,677 INFO spawned: 'php-fpm' with pid 7
+2025-04-04 00:18:29,736 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-04 00:58:57,920 WARN received SIGQUIT indicating exit request
+2025-04-04 00:58:57,920 INFO waiting for php-fpm to die
+2025-04-04 00:58:57,935 INFO stopped: php-fpm (exit status 0)
+2025-04-04 00:59:13,176 INFO supervisord started with pid 1
+2025-04-04 00:59:14,179 INFO spawned: 'php-fpm' with pid 7
+2025-04-04 00:59:15,210 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-04 01:43:10,561 WARN received SIGQUIT indicating exit request
+2025-04-04 01:43:10,561 INFO waiting for php-fpm to die
+2025-04-04 01:43:11,576 INFO stopped: php-fpm (exit status 0)
+2025-04-04 01:43:20,437 INFO supervisord started with pid 1
+2025-04-04 01:43:21,440 INFO spawned: 'php-fpm' with pid 7
+2025-04-04 01:43:22,476 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-04 01:45:45,648 WARN received SIGQUIT indicating exit request
+2025-04-04 01:45:45,648 INFO waiting for php-fpm to die
+2025-04-04 01:45:45,673 INFO stopped: php-fpm (exit status 0)
+2025-04-04 01:45:52,762 INFO supervisord started with pid 1
+2025-04-04 01:45:53,765 INFO spawned: 'php-fpm' with pid 7
+2025-04-04 01:45:54,797 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-04 01:48:12,943 WARN received SIGQUIT indicating exit request
+2025-04-04 01:48:12,943 INFO waiting for php-fpm to die
+2025-04-04 01:48:12,969 INFO stopped: php-fpm (exit status 0)
+2025-04-04 01:48:16,997 INFO supervisord started with pid 1
+2025-04-04 01:48:17,999 INFO spawned: 'php-fpm' with pid 7
+2025-04-04 01:48:19,060 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

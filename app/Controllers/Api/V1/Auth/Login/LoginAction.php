@@ -5,8 +5,8 @@ namespace App\Controllers\Api\V1\Auth\Login;
 use App\Shared\Controller as Action;
 use App\Contracts\Interface\Buses\CommandBusInterface;
 use App\Modules\Auth\Requests\LoginRequest;
-use Spatie\RouteAttributes\Attributes\{Prefix, Route};
 use App\Modules\Auth\Commands\LoginCommand;
+use Spatie\RouteAttributes\Attributes\{Prefix, Route};
 use App\Interaction\Responses\TokenResponse;
 
 #[Prefix(prefix: 'v1')]
